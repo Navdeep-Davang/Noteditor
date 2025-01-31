@@ -8,9 +8,21 @@ importers:
 
   .:
     dependencies:
+      '@lexical/hashtag':
+        specifier: 0.23.1
+        version: 0.23.1
+      '@lexical/list':
+        specifier: 0.23.1
+        version: 0.23.1
+      '@lexical/overflow':
+        specifier: 0.23.1
+        version: 0.23.1
       '@lexical/react':
         specifier: 0.23.1
         version: 0.23.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(yjs@13.6.23)
+      '@lexical/table':
+        specifier: 0.23.1
+        version: 0.23.1
       lexical:
         specifier: 0.23.1
         version: 0.23.1

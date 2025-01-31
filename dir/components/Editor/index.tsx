@@ -1,5 +1,6 @@
+
+
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
-import { CharacterLimitPlugin } from "@lexical/react/LexicalCharacterLimitPlugin";
 import { CheckListPlugin } from "@lexical/react/LexicalCheckListPlugin";
 import { ClearEditorPlugin } from "@lexical/react/LexicalClearEditorPlugin";
 import { ClickableLinkPlugin } from "@lexical/react/LexicalClickableLinkPlugin";
@@ -29,12 +30,15 @@ export default function Editor(): React.JSX.Element {
       <CheckListPlugin />
       <TablePlugin />
       <TabIndentationPlugin maxIndent={7} />
-      <SelectionAlwaysOnDisplay />
-      <CharacterLimitPlugin maxLength={1000} charset="UTF-16" />
+      <SelectionAlwaysOnDisplay />      
       <ClickableLinkPlugin disabled={!isEditable} />
       <HorizontalRulePlugin />
       <RichTextPlugin
-        contentEditable={ContentEditable}
+        contentEditable={
+          <div className="editor-scroller">            
+              <ContentEditable placeholder={"Type Here"} />         
+          </div>
+        }
         ErrorBoundary={LexicalErrorBoundary}
       />
     </div>

@@ -2,13 +2,15 @@
 
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { $createParagraphNode, $createTextNode, $getRoot } from 'lexical';
-import PlaygroundEditorTheme from '../Editor/themes/PlaygroundEditorTheme';
-import { SharedHistoryContext } from '../Editor/context/SharedHistoryContext';
-import { TableContext } from '../Editor/plugins/TablePlugin';
-import { ToolbarContext } from '../Editor/context/ToolbarContext';
-import Editor from '../Editor';
-import PlaygroundNodes from '../Editor/nodes/PlaygroundNodes';
+import EditorTheme from './EditorTheme';
+// import { TableContext } from '../Editor/plugins/TablePlugin';
+// import { ToolbarContext } from '../Editor/context/ToolbarContext';
+import Nodes from '../Nodes';
 import React from 'react';
+import dynamic from 'next/dynamic';
+
+const Editor = dynamic(() => import('../Editor'), { ssr: false });
+
 
 function $prepopulatedNotEditorText() {
   const root = $getRoot();
@@ -25,8 +27,8 @@ export default function NotEditor(): React.JSX.Element {
   const initialConfig = {
     editorState: $prepopulatedNotEditorText,
     namespace: 'NotEditor',
-    nodes: [...PlaygroundNodes],
-    theme: PlaygroundEditorTheme,
+    nodes: [...Nodes],
+    theme: EditorTheme,
     onError: (error: Error) => {
       console.error('NotEditor Error:', error);
     },
@@ -34,16 +36,14 @@ export default function NotEditor(): React.JSX.Element {
 
   return (
     
-      <LexicalComposer initialConfig={initialConfig}>
-        <SharedHistoryContext>
-          <TableContext>
-            <ToolbarContext>
+      <LexicalComposer initialConfig={initialConfig}>        
+          {/* <TableContext>
+            <ToolbarContext> */}
               <div className="editor-container">
                 <Editor />               
               </div>
-            </ToolbarContext>
-          </TableContext>
-        </SharedHistoryContext>
+            {/* </ToolbarContext>
+          </TableContext>         */}
       </LexicalComposer>
     
   );
