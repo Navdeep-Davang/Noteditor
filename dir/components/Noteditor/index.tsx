@@ -5,9 +5,10 @@ import { $createParagraphNode, $createTextNode, $getRoot } from 'lexical';
 import EditorTheme from './EditorTheme';
 // import { TableContext } from '../Editor/plugins/TablePlugin';
 // import { ToolbarContext } from '../Editor/context/ToolbarContext';
-import Nodes from '../Nodes';
+import Nodes from '../../nodes';
 import React from 'react';
 import dynamic from 'next/dynamic';
+import { ToolbarContext } from '@/dir/context/ToolbarContext';
 
 const Editor = dynamic(() => import('../Editor'), { ssr: false });
 
@@ -37,13 +38,13 @@ export default function NotEditor(): React.JSX.Element {
   return (
     
       <LexicalComposer initialConfig={initialConfig}>        
-          {/* <TableContext>
-            <ToolbarContext> */}
+          {/* <TableContext> */}
+            <ToolbarContext>
               <div className="editor-container">
                 <Editor />               
               </div>
-            {/* </ToolbarContext>
-          </TableContext>         */}
+            </ToolbarContext>
+          {/* </TableContext>         */}
       </LexicalComposer>
     
   );

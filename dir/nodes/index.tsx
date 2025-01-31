@@ -5,9 +5,11 @@ import { ListItemNode, ListNode } from '@lexical/list';
 import { HorizontalRuleNode } from '@lexical/react/LexicalHorizontalRuleNode';
 import { TableCellNode, TableNode, TableRowNode } from '@lexical/table';
 import { OverflowNode } from '@lexical/overflow';
+import { LinkNode } from '@lexical/link';
 
 const Nodes: Array<Klass<LexicalNode>> = [
   ListNode,
+  LinkNode, 
   ListItemNode,
   TableNode,
   TableCellNode,

@@ -8,17 +8,56 @@ import { HashtagPlugin } from "@lexical/react/LexicalHashtagPlugin";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { HorizontalRulePlugin } from "@lexical/react/LexicalHorizontalRulePlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { SelectionAlwaysOnDisplay } from "@lexical/react/LexicalSelectionAlwaysOnDisplay";
 import { TabIndentationPlugin } from "@lexical/react/LexicalTabIndentationPlugin";
 import { TablePlugin } from "@lexical/react/LexicalTablePlugin";
 import { useLexicalEditable } from "@lexical/react/useLexicalEditable";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
-import * as React from "react";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { useEffect, useState } from "react";
 import ContentEditable from '../ContentEditable';
+import ShortcutsPlugin from "@/dir/plugins/ShortcutsPlugin";
+import { CAN_USE_DOM } from "@/dir/shared/canUseDOM";
+import FloatingLinkEditorPlugin from "@/dir/plugins/FloatingLinkEditorPlugin";
+import FloatingToolbarPlugin from "@/dir/plugins/FloatingToolbarPlugin";
+import TreeViewPlugin from "@/dir/plugins/TreeViewPlugin";
+
 
 export default function Editor(): React.JSX.Element {
   const isEditable = useLexicalEditable();
+
+  const [editor] = useLexicalComposerContext();
+  const activeEditor = editor;
+
+  const [isLinkEditMode, setIsLinkEditMode] = useState<boolean>(false);
+  const [floatingAnchorElem, setFloatingAnchorElem] = useState<HTMLDivElement | null>(null);
+  const [isSmallWidthViewport, setIsSmallWidthViewport] = useState<boolean>(false);
+
+  const onRef = (_floatingAnchorElem: HTMLDivElement) => {
+    if (_floatingAnchorElem !== null) {
+      setFloatingAnchorElem(_floatingAnchorElem);
+    }
+  };
+
+  useEffect(() => {
+    const updateViewPortWidth = () => {
+      const isNextSmallWidthViewport =
+        CAN_USE_DOM && window.matchMedia('(max-width: 1025px)').matches;
+
+      if (isNextSmallWidthViewport !== isSmallWidthViewport) {
+        setIsSmallWidthViewport(isNextSmallWidthViewport);
+      }
+    };
+    updateViewPortWidth();
+    window.addEventListener('resize', updateViewPortWidth);
+
+    return () => {
+      window.removeEventListener('resize', updateViewPortWidth);
+    };
+  }, [isSmallWidthViewport]);
+
 
   return (
     <div className="editor-container">
@@ -27,6 +66,7 @@ export default function Editor(): React.JSX.Element {
       <HashtagPlugin />
       <HistoryPlugin />
       <ListPlugin />
+      <LinkPlugin/>
       <CheckListPlugin />
       <TablePlugin />
       <TabIndentationPlugin maxIndent={7} />
@@ -35,12 +75,37 @@ export default function Editor(): React.JSX.Element {
       <HorizontalRulePlugin />
       <RichTextPlugin
         contentEditable={
-          <div className="editor-scroller">            
-              <ContentEditable placeholder={"Type Here"} />         
+          <div className="editor-scroller">
+            <div className="editor" ref={onRef}>
+              <ContentEditable placeholder={"Type Here"} />
+            </div>
           </div>
         }
         ErrorBoundary={LexicalErrorBoundary}
       />
+
+      <ShortcutsPlugin
+        editor={activeEditor}
+        setIsLinkEditMode={setIsLinkEditMode}
+      />
+
+      {floatingAnchorElem && !isSmallWidthViewport && (
+        <>         
+          <FloatingLinkEditorPlugin
+            anchorElem={floatingAnchorElem}
+            isLinkEditMode={isLinkEditMode}
+            setIsLinkEditMode={setIsLinkEditMode}
+          />         
+          
+          <FloatingToolbarPlugin
+            anchorElem={floatingAnchorElem}
+            setIsLinkEditMode={setIsLinkEditMode}
+          />
+        </>
+      )}
+
+      <TreeViewPlugin/>
+
     </div>
   );
 }

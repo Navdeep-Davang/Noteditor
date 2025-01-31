@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --FloatingPopup-Bg: #ffffff;
+    --FloatingPopup-Shadow: rgba(0, 0, 0, 0.3);
+    --FloatingPopup-Item-Hover: #eee;
+    --FloatingPopup-Item-Active: rgba(223, 232, 250, 0.3);
+    --FloatingPopup-Icon-Opacity: 0.6;
+    --FloatingPopup-Icon-Disabled: 0.2;
+    --FloatingPopup-Text: #777;
+  }
+
+  .dark {
+    --FloatingPopup-Bg: #191919;
+    --FloatingPopup-Shadow: rgba(255, 255, 255, 0.1);
+    --FloatingPopup-Item-Hover: rgba(255, 255, 255, 0.2);
+    --FloatingPopup-Item-Active: rgba(50, 65, 95, 0.4);
+    --FloatingPopup-Icon-Opacity: 0.8;
+    --FloatingPopup-Icon-Disabled: 0.3;
+    --FloatingPopup-Text: #bbb;
+  }
+}
+
+
+
+
+@layer components {
+  .floating-toolbar-popup {
+    @apply absolute top-0 left-0 z-10 flex h-[35px] items-center bg-[var(--FloatingPopup-Bg)] p-1 shadow-[0px_5px_10px_rgba(0,0,0,0.3)] opacity-0 transition-opacity duration-500 rounded-md;
+  }
+
+  .floating-toolbar-popup button.popup-item {
+    @apply flex cursor-pointer items-center justify-center rounded-md p-2 transition-colors hover:bg-[var(--FloatingPopup-Item-Hover)] disabled:cursor-not-allowed;
+  }
+
+  .floating-toolbar-popup button.popup-item.spaced {
+    @apply mr-[2px];
+  }
+
+  .floating-toolbar-popup button.popup-item.active {
+    @apply bg-[var(--FloatingPopup-Item-Active)];
+  }
+
+  .floating-toolbar-popup button.popup-item i.format {
+    @apply flex h-[18px] w-[18px] opacity-[var(--FloatingPopup-Icon-Opacity)] mt-[2px] align-middle;
+  }
+
+  .floating-toolbar-popup button.popup-item:disabled i.format {
+    @apply opacity-[var(--FloatingPopup-Icon-Disabled)];
+  }
+
+  .floating-toolbar-popup button.popup-item:hover:not([disabled]) {
+    @apply bg-[var(--FloatingPopup-Item-Hover)];
+  }
+
+  .floating-toolbar-popup .popup-item .text {
+    @apply flex text-[14px] text-[var(--FloatingPopup-Text)] overflow-hidden h-[20px] items-center text-left line-clamp-1;
+  }
+
+  .floating-toolbar-popup .popup-item .icon {
+    @apply flex h-[20px] w-[20px] select-none mr-[8px] bg-contain;
+  }
+
+  .floating-toolbar-popup i.chevron-down {
+    @apply flex h-[16px] w-[16px] mt-[3px] select-none;
+  }
+
+  .floating-toolbar-popup i.chevron-down.inside {
+    @apply flex h-[16px] w-[16px] -ml-[25px] mt-[11px] mr-[10px] pointer-events-none;
+  }
+
+  .floating-toolbar-popup .divider {
+    @apply w-[1px] bg-[var(--FloatingPopup-Item-Hover)] mx-[4px];
+  }
+
+  .floating-toolbar-popup .icon-color {
+    color: var(--FloatingPopup-Text);
+  }
+
+  .floating-toolbar-popup .icon-color-disabled {
+    color: var(--FloatingPopup-Icon-Disabled);
+  }
+
+  @media (max-width: 756px) {
+    .floating-toolbar-popup button.insert-comment {
+      @apply hidden;
+    }
+  }
+}
