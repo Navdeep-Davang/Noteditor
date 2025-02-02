@@ -29,7 +29,7 @@ export default function Editor(): React.JSX.Element {
   const isEditable = useLexicalEditable();
 
   const [editor] = useLexicalComposerContext();
-  const activeEditor = editor;
+  const [activeEditor, setActiveEditor] = useState(editor);
 
   const [isLinkEditMode, setIsLinkEditMode] = useState<boolean>(false);
   const [floatingAnchorElem, setFloatingAnchorElem] = useState<HTMLDivElement | null>(null);
@@ -98,6 +98,8 @@ export default function Editor(): React.JSX.Element {
           />         
           
           <FloatingToolbarPlugin
+            activeEditor = {activeEditor}
+            setActiveEditor = {setActiveEditor}
             anchorElem={floatingAnchorElem}
             setIsLinkEditMode={setIsLinkEditMode}
           />

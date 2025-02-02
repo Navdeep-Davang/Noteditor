@@ -7,7 +7,7 @@
     --FloatingPopup-Bg: #ffffff;
     --FloatingPopup-Shadow: rgba(0, 0, 0, 0.3);
     --FloatingPopup-Item-Hover: #eee;
-    --FloatingPopup-Item-Active: rgba(223, 232, 250, 0.3);
+    --FloatingPopup-Item-Active: #eee;
     --FloatingPopup-Icon-Opacity: 0.6;
     --FloatingPopup-Icon-Disabled: 0.2;
     --FloatingPopup-Text: #777;
@@ -17,7 +17,7 @@
     --FloatingPopup-Bg: #191919;
     --FloatingPopup-Shadow: rgba(255, 255, 255, 0.1);
     --FloatingPopup-Item-Hover: rgba(255, 255, 255, 0.2);
-    --FloatingPopup-Item-Active: rgba(50, 65, 95, 0.4);
+    --FloatingPopup-Item-Active: rgba(255, 255, 255, 0.2);
     --FloatingPopup-Icon-Opacity: 0.8;
     --FloatingPopup-Icon-Disabled: 0.3;
     --FloatingPopup-Text: #bbb;
@@ -29,11 +29,11 @@
 
 @layer components {
   .floating-toolbar-popup {
-    @apply absolute top-0 left-0 z-10 flex h-[35px] items-center bg-[var(--FloatingPopup-Bg)] p-1 shadow-[0px_5px_10px_rgba(0,0,0,0.3)] opacity-0 transition-opacity duration-500 rounded-md;
+    @apply absolute top-0 left-0 z-10 flex items-center bg-[var(--FloatingPopup-Bg)] p-1 shadow-[0px_5px_10px_rgba(0,0,0,0.3)] opacity-0 border border-white/20 transition-opacity duration-500 rounded-md;
   }
 
   .floating-toolbar-popup button.popup-item {
-    @apply flex cursor-pointer items-center justify-center rounded-md p-2 transition-colors hover:bg-[var(--FloatingPopup-Item-Hover)] disabled:cursor-not-allowed;
+    @apply flex cursor-pointer items-center justify-center rounded-sm p-2 transition-colors hover:bg-[var(--FloatingPopup-Item-Hover)] disabled:cursor-not-allowed;
   }
 
   .floating-toolbar-popup button.popup-item.spaced {
