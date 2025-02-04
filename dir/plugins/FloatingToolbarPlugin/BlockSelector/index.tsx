@@ -60,7 +60,9 @@ export const formatHeading = (
   if (blockType !== headingSize) {
     editor.update(() => {
       const selection = $getSelection();
-      $setBlocksType(selection, () => $createHeadingNode(headingSize));
+      if ($isRangeSelection(selection)) {
+        $setBlocksType(selection, () => $createHeadingNode(headingSize));
+      }
     });
   }
 };
