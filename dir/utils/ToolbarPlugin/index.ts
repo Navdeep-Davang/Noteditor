@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import {$createCodeNode} from '@lexical/code';
+import {$createCodeNode} from '@/dir/utils/CodeBlockPlugin';
 import {
   INSERT_CHECK_LIST_COMMAND,
   INSERT_ORDERED_LIST_COMMAND,

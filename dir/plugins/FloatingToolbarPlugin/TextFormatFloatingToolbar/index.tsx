@@ -2,7 +2,7 @@
 
 import { Bold, Italic, Underline, Strikethrough, Subscript, Superscript, Code, Link, CaseUpper, CaseLower } from 'lucide-react';
 
-import {$isCodeNode, CODE_LANGUAGE_FRIENDLY_NAME_MAP, CODE_LANGUAGE_MAP, getLanguageFriendlyName} from '@lexical/code';
+import {$isCodeNode, CODE_LANGUAGE_FRIENDLY_NAME_MAP, CODE_LANGUAGE_MAP, getLanguageFriendlyName} from '@/dir/utils/CodeBlockPlugin';
 import {$isLinkNode, TOGGLE_LINK_COMMAND} from '@lexical/link';
 import {$findMatchingParent, $getNearestNodeOfType, $isEditorIsNestedEditor, mergeRegister} from '@lexical/utils';
 

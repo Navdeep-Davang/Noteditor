@@ -7,7 +7,8 @@ import { TableCellNode, TableNode, TableRowNode } from '@lexical/table';
 import { OverflowNode } from '@lexical/overflow';
 import { LinkNode } from '@lexical/link';
 import { HeadingNode, QuoteNode } from '@lexical/rich-text';
-import { CodeHighlightNode, CodeNode } from '@lexical/code';
+import { CodeNode } from './CodeNode';
+import { CodeHighlightNode } from './CodeHighlightNode';
 
 const Nodes: Array<Klass<LexicalNode>> = [
   HeadingNode,

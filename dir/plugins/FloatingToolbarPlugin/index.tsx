@@ -7,7 +7,7 @@
  */
 
 
-import {$isCodeHighlightNode} from '@lexical/code';
+import {$isCodeHighlightNode} from '@/dir/utils/CodeBlockPlugin';
 import {$isLinkNode} from '@lexical/link';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {mergeRegister} from '@lexical/utils';

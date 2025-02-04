@@ -23,6 +23,7 @@ import { CAN_USE_DOM } from "@/dir/shared/canUseDOM";
 import FloatingLinkEditorPlugin from "@/dir/plugins/FloatingLinkEditorPlugin";
 import FloatingToolbarPlugin from "@/dir/plugins/FloatingToolbarPlugin";
 import TreeViewPlugin from "@/dir/plugins/TreeViewPlugin";
+import CodeBlockPlugin from "@/dir/plugins/CodeBlockPlugin";
 
 
 export default function Editor(): React.JSX.Element {
@@ -37,14 +38,14 @@ export default function Editor(): React.JSX.Element {
 
   const onRef = (_floatingAnchorElem: HTMLDivElement) => {
     if (_floatingAnchorElem !== null) {
-      setFloatingAnchorElem(_floatingAnchorElem);
+      setFloatingAnchorElem(_floatingAnchorElem);     
     }
   };
 
   useEffect(() => {
     const updateViewPortWidth = () => {
       const isNextSmallWidthViewport =
-        CAN_USE_DOM && window.matchMedia('(max-width: 1025px)').matches;
+        CAN_USE_DOM && window.matchMedia('(max-width: 756px)').matches;
 
       if (isNextSmallWidthViewport !== isSmallWidthViewport) {
         setIsSmallWidthViewport(isNextSmallWidthViewport);
@@ -68,6 +69,7 @@ export default function Editor(): React.JSX.Element {
       <ListPlugin />
       <LinkPlugin/>
       <CheckListPlugin />
+      <CodeBlockPlugin/>
       <TablePlugin />
       <TabIndentationPlugin maxIndent={7} />
       <SelectionAlwaysOnDisplay />      
@@ -89,6 +91,7 @@ export default function Editor(): React.JSX.Element {
         setIsLinkEditMode={setIsLinkEditMode}
       />
 
+      
       {floatingAnchorElem && !isSmallWidthViewport && (
         <>         
           <FloatingLinkEditorPlugin

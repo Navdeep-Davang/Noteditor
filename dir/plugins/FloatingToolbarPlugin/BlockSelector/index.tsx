@@ -5,7 +5,7 @@ import { $createParagraphNode, $getSelection, $isRangeSelection, LexicalEditor }
 import { $setBlocksType } from "@lexical/selection";
 import { $createHeadingNode, $createQuoteNode, HeadingTagType } from "@lexical/rich-text";
 import { INSERT_CHECK_LIST_COMMAND, INSERT_ORDERED_LIST_COMMAND, INSERT_UNORDERED_LIST_COMMAND } from "@lexical/list";
-import { $createCodeNode } from "@lexical/code";
+import { $createCodeNode } from "@/dir/utils/CodeBlockPlugin";
 import { SHORTCUTS } from "../../ShortcutsPlugin/shortcuts";
 
 const blockTypeToBlockName = {
