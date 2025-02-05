@@ -18,7 +18,7 @@ function $prepopulatedNotEditorText() {
   if (root.getFirstChild() === null) {    
     const paragraph = $createParagraphNode();
     paragraph.append(
-      $createTextNode('This is a reusable NotEditor component. Customize it as needed.')
+      $createTextNode('This is a reusable NotEditor component. Customize it as needed. So use it wisely the code is little bit messed up be read it carefully')
     );
     root.append(paragraph);
   }

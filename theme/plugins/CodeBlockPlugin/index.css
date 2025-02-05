@@ -10,6 +10,33 @@
     --CodeBlock-Gutter-Text: #777;
     --CodeBlock-Line-Hover: #f0f0f0;
     --CodeBlock-Shadow: rgba(0, 0, 0, 0.1);
+
+    /* Prism-vs Theme Variables */
+   /* Prism-vs Theme Variables */
+   --Prism-Comment: #008000;
+   --Prism-Prolog: #008000;
+   --Prism-Doctype: #008000;
+   --Prism-Cdata: #008000;
+   --Prism-Namespace: rgba(0, 0, 0, 0.7);
+   --Prism-String: #A31515;
+   --Prism-Punctuation: #393A34;
+   --Prism-Operator: #393A34;
+   --Prism-Variable: #36acaa;
+   --Prism-Constant: #36acaa;
+   --Prism-Inserted: #36acaa;
+   --Prism-Atrule: #0000ff;
+   --Prism-Keyword: #0000ff;
+   --Prism-Attr-Value: #0000ff;
+   --Prism-Function: #393A34;
+   --Prism-Deleted: #9a050f;
+   --Prism-Selector: #00009f;
+   --Prism-Important: #e90;
+   --Prism-Class-Name: #2B91AF;
+   --Prism-Tag: #800000;
+   --Prism-Attr-Name: #ff0000;
+   --Prism-Property: #ff0000;
+   --Prism-Regex: #ff0000;
+   --Prism-Entity: #ff0000;
   }
 
   .dark {
@@ -19,12 +46,39 @@
     --CodeBlock-Gutter-Text: #bbb;
     --CodeBlock-Line-Hover: #444444;
     --CodeBlock-Shadow: rgba(255, 255, 255, 0.1);
+
+     /* Prism-vsc-dark-plus Theme Variables */
+     --Prism-Comment: #6a9955;
+    --Prism-Prolog: #6a9955;
+    --Prism-Doctype: #569CD6;
+    --Prism-Cdata: #808080;
+    --Prism-Namespace: #4ec9b0;
+    --Prism-String: #ce9178;
+    --Prism-Punctuation: #d4d4d4;
+    --Prism-Operator: #d4d4d4;
+    --Prism-Variable: #9cdcfe;
+    --Prism-Constant: #9cdcfe;
+    --Prism-Inserted: #b5cea8;
+    --Prism-Atrule: #ce9178;
+    --Prism-Keyword: #569CD6;
+    --Prism-Attr-Value: #ce9178;
+    --Prism-Function: #dcdcaa;
+    --Prism-Deleted: #ce9178;
+    --Prism-Selector: #d7ba7d;
+    --Prism-Important: #569CD6;
+    --Prism-Class-Name: #4ec9b0;
+    --Prism-Tag: #569cd6;
+    --Prism-Attr-Name: #9cdcfe;
+    --Prism-Property: #9cdcfe;
+    --Prism-Regex: #d16969;
+    --Prism-Entity: #569cd6;
+
   }
 }
 
 @layer components {
   .EditorTheme__code {
-    @apply block relative overflow-x-auto whitespace-nowrap p-4 pl-16 shadow-[var(--CodeBlock-Shadow)] bg-[var(--CodeBlock-Bg)] text-[var(--CodeBlock-Text)] rounded-md;
+    @apply block relative overflow-x-auto whitespace-nowrap my-2 p-4 pl-16 shadow-[var(--CodeBlock-Shadow)] bg-[var(--CodeBlock-Bg)] text-[var(--CodeBlock-Text)] rounded-md;
     font-size: 14px;
     line-height: 1.5;
 }
@@ -52,5 +106,123 @@
   .EditorTheme__code code {
     font-family: 'Courier New', Courier, monospace;
     line-height: inherit; 
+  }
+
+  /* Prism classes For syntax highlighting */
+
+  /* Comments, Prolog, Doctype, CDATA */
+  .EditorTheme__tokenComment,
+  .EditorTheme__tokenProlog,
+  .EditorTheme__tokenDoctype,
+  .EditorTheme__tokenCdata {
+    color: var(--Prism-Comment);
+    font-style: italic;
+  }
+
+  /* Namespace */
+  .EditorTheme__tokenNamespace {
+    opacity: var(--Prism-Namespace);
+  }
+
+  /* Strings */
+  .EditorTheme__tokenString {
+    color: var(--Prism-String);
+  }
+
+  /* Punctuation & Operators */
+  .EditorTheme__tokenPunctuation,
+  .EditorTheme__tokenOperator {
+    color: var(--Prism-Operator);
+  }
+
+  /* URL, Symbol, Number, Boolean, Variable, Constant, Inserted */
+  .EditorTheme__tokenUrl,
+  .EditorTheme__tokenSymbol,
+  .EditorTheme__tokenNumber,
+  .EditorTheme__tokenBoolean,
+  .EditorTheme__tokenVariable,
+  .EditorTheme__tokenConstant,
+  .EditorTheme__tokenInserted {
+    color: var(--Prism-Variable);
+  }
+
+  /* Atrule, Keyword, Attr-Value, Selector */
+  .EditorTheme__tokenAtrule,
+  .EditorTheme__tokenKeyword,
+  .EditorTheme__tokenAttrValue,
+  .EditorTheme__tokenSelector,
+  .language-json .EditorTheme__tokenBoolean,
+  .language-json .EditorTheme__tokenNumber {
+    color: var(--Prism-Keyword);
+  }
+
+  /* Function */
+  .EditorTheme__tokenFunction {
+    color: var(--Prism-Function);
+  }
+
+  /* Deleted */
+  .EditorTheme__tokenDeleted {
+    color: var(--Prism-Deleted);
+  }
+
+  /* Important & Bold */
+  .EditorTheme__tokenImportant {
+    color: var(--Prism-Important);
+    font-weight: bold;
+  }
+
+  .EditorTheme__tokenBold {
+    font-weight: bold;
+  }
+
+  /* Italic */
+  .EditorTheme__tokenItalic {
+    font-style: italic;
+  }
+
+  /* Class Name & JSON Property */
+  .EditorTheme__tokenClassName,
+  .language-json .EditorTheme__tokenProperty {
+    color: var(--Prism-Class-Name);
+  }
+
+  /* Tag & Selector */
+  .EditorTheme__tokenTag,
+  .EditorTheme__tokenSelector {
+    color: var(--Prism-Tag);
+  }
+
+  /* Attribute Name, Property, Regex, Entity */
+  .EditorTheme__tokenAttrName,
+  .EditorTheme__tokenProperty,
+  .EditorTheme__tokenRegex,
+  .EditorTheme__tokenEntity {
+    color: var(--Prism-Attr-Name);
+  }
+
+  /* Directive Tag */
+  .EditorTheme__tokenDirectiveTag {
+    background: #ffff00; /* Highlight yellow for directives */
+    color: var(--Prism-Function);
+  }
+
+  /* Line Numbers Plugin */
+  .line-numbers.line-numbers .line-numbers-rows {
+    border-right-color: var(--Prism-Operator);
+  }
+
+  .line-numbers .line-numbers-rows > span:before {
+    color: var(--Prism-Class-Name);
+  }
+
+  /* Line Highlight Plugin */
+  .line-highlight.line-highlight {
+    background: rgba(193, 222, 241, 0.2);
+    background: linear-gradient(
+      to right,
+      rgba(193, 222, 241, 0.2) 70%,
+      rgba(221, 222, 241, 0)
+    );
   }
 }
