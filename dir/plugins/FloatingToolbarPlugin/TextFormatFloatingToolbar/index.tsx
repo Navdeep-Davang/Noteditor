@@ -36,6 +36,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import {Dispatch, useCallback, useEffect, useRef, useState} from 'react';
 import * as React from 'react';
 import {getSelectedNode} from '@/dir/utils/getSelectedNode';
+import { dropDownActiveClass } from '@/dir/utils/dropDownActiveClass';
 
 
 
@@ -101,15 +102,7 @@ export default function TextFormatFloatingToolbar({
   
     return options;
   }
-
-
-  function dropDownActiveClass(active: boolean) {
-    if (active) {
-      return 'active dropdown-item-active';
-    } else {
-      return '';
-    }
-  }
+ 
 
   const CODE_LANGUAGE_OPTIONS = getCodeLanguageOptions();
   

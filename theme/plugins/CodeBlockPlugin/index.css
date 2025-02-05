@@ -77,13 +77,8 @@
 }
 
 @layer components {
-  .EditorTheme__code {
-    @apply block relative overflow-x-auto my-2 p-4 pl-16 shadow-[var(--CodeBlock-Shadow)] bg-[var(--CodeBlock-Bg)] text-[var(--CodeBlock-Text)] rounded-md;
-    font-size: 14px;
-    line-height: 1.5;
-    white-space: pre;
-  }
-
+  
+  /* Gutter styles */
   .EditorTheme__code:before {
     content: attr(data-gutter);
     @apply absolute left-0 top-0 flex flex-col items-start justify-start pl-3 pr-3 py-4 text-[var(--CodeBlock-Gutter-Text)] bg-[var(--CodeBlock-Gutter-Bg)] text-xs;
@@ -93,6 +88,61 @@
     font-size: 14px;
     line-height: 1.5;
     white-space: pre-wrap;
+  }
+  
+  /* Code block header styles */
+  /* usining the similar appoch as above dont change the gutter style implementation */
+  .EditorTheme__code[data-code-header] {
+    position: relative;
+    padding-top: 24px;  /* Add space for the header */
+  }
+  
+  .EditorTheme__code[data-code-header]:before {
+    content: attr(data-code-header);
+    @apply absolute top-0 left-0 pl-3 pr-3 py-2 text-sm font-bold text-[var(--CodeBlock-Header-Text)] bg-[var(--CodeBlock-Header-Bg)] border-b border-[var(--CodeBlock-Border-Color)];
+    width: 100%;
+    font-size: 14px;
+    line-height: 1.5;
+    white-space: nowrap;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1;
+  }
+  
+  .EditorTheme__code-header {
+    @apply flex justify-between items-center py-2 px-3;
+    background-color: var(--CodeBlock-Header-Bg);
+    border-bottom: 1px solid var(--CodeBlock-Border-Color);
+  }
+  
+  .code-block-title {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--CodeBlock-Header-Text);
+  }
+  
+  .copy-button {
+    background-color: var(--CodeBlock-Button-Bg);
+    color: var(--CodeBlock-Button-Text);
+    padding: 6px 12px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .copy-button:hover {
+    background-color: var(--CodeBlock-Button-Hover-Bg);
+  }
+  
+  
+  /* Code block styles */
+
+  .EditorTheme__code {
+    @apply block relative overflow-x-auto my-2 p-4 pl-16 shadow-[var(--CodeBlock-Shadow)] bg-[var(--CodeBlock-Bg)] text-[var(--CodeBlock-Text)] rounded-md;
+    font-size: 14px;
+    line-height: 1.5;
+    white-space: pre;
   }
 
   .EditorTheme__code .line:hover {

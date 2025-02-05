@@ -245,8 +245,6 @@ import type {
     // Set the new gutter value on the codeElement.
     codeElement.setAttribute('data-gutter', gutter);
   }
-  
-
 
   // Using `skipTransforms` to prevent extra transforms since reformatting the code
   // will not affect code block content itself.

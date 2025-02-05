@@ -7,6 +7,7 @@ import { $createHeadingNode, $createQuoteNode, HeadingTagType } from "@lexical/r
 import { INSERT_CHECK_LIST_COMMAND, INSERT_ORDERED_LIST_COMMAND, INSERT_UNORDERED_LIST_COMMAND } from "@lexical/list";
 import { $createCodeNode } from "@/dir/utils/CodeBlockPlugin";
 import { SHORTCUTS } from "../../ShortcutsPlugin/shortcuts";
+import { dropDownActiveClass } from "@/dir/utils/dropDownActiveClass";
 
 const blockTypeToBlockName = {
   bullet: 'Bulleted List',
@@ -125,14 +126,6 @@ export const formatCode = (editor: LexicalEditor, blockType: string) => {
   }
 };
 
-
-function dropDownActiveClass(active: boolean) {
-  if (active) {
-    return 'active dropdown-item-active';
-  } else {
-    return '';
-  }
-}
 
 export function BlockSelector({ editor, blockType, disabled = false }: BlockSelectorProps): React.JSX.Element {
   return (
