@@ -78,10 +78,11 @@
 
 @layer components {
   .EditorTheme__code {
-    @apply block relative overflow-x-auto whitespace-nowrap my-2 p-4 pl-16 shadow-[var(--CodeBlock-Shadow)] bg-[var(--CodeBlock-Bg)] text-[var(--CodeBlock-Text)] rounded-md;
+    @apply block relative overflow-x-auto my-2 p-4 pl-16 shadow-[var(--CodeBlock-Shadow)] bg-[var(--CodeBlock-Bg)] text-[var(--CodeBlock-Text)] rounded-md;
     font-size: 14px;
     line-height: 1.5;
-}
+    white-space: pre;
+  }
 
   .EditorTheme__code:before {
     content: attr(data-gutter);
