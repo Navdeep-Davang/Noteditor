@@ -145,30 +145,7 @@
     white-space: pre;
     overflow-x: auto;
   }
-    /* Srollbar implementation on the EditorTheme__code */
-    /* .EditorTheme__code::-webkit-scrollbar {
-      width: 1px; 
-    }
-  
-    .EditorTheme__code::-webkit-scrollbar-track {
-      border-radius: 9999px; 
-      background-color: #f3f4f6; 
-    }
-  
-    .EditorTheme__code::-webkit-scrollbar-thumb {
-      border-radius: 9999px; 
-      background-color: #d1d5db; 
-    } */
-  
-    /* Dark mode styles */
-    /* .dark .EditorTheme__code::-webkit-scrollbar-track {
-      background-color: transparent; 
-    }
-  
-    .dark .EditorTheme__code::-webkit-scrollbar-thumb {
-      background-color: #a3a3a3;
-    } */
-
+   
   /* Code style */
   .EditorTheme__code code {
     font-family: 'Courier New', Courier, monospace;
