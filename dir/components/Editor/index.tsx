@@ -69,7 +69,7 @@ export default function Editor(): React.JSX.Element {
       <ListPlugin />
       <LinkPlugin/>
       <CheckListPlugin />
-      <CodeBlockPlugin/>
+      <CodeBlockPlugin activeEditor={activeEditor} setActiveEditor={setActiveEditor}/>
       <TablePlugin />
       <TabIndentationPlugin maxIndent={7} />
       <SelectionAlwaysOnDisplay />      
@@ -79,7 +79,7 @@ export default function Editor(): React.JSX.Element {
         contentEditable={
           <div className="editor-scroller">
             <div className="editor" ref={onRef}>
-              <ContentEditable placeholder={"Type Here"} />
+              <ContentEditable placeholder={"Type Here"}  />
             </div>
           </div>
         }

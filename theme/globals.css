@@ -34,4 +34,39 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+  
+}
+
+
+@layer utilities {
+  .custom-scrollbar::-webkit-scrollbar {  /* THIS IS THE KEY */
+    scrollbar-width: thin;
+  }
+  .custom-scrollbar .EditorTheme__code{
+    scrollbar-width: thin;
+  }
+
+      .custom-scrollbar .EditorTheme__code::-webkit-scrollbar-thumb {
+        border-radius: 9999px !important;
+        background-color: #d1d5db !important;
+      }     
+
+      .custom-scrollbar::-webkit-scrollbar-track {
+        border-radius: 9999px; /* Rounded track */
+        background-color: #f3f4f6; /* Light gray background */
+      }
+      
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    border-radius: 9999px; /* Rounded thumb */
+    background-color: #d1d5db; /* Gray thumb */
+  }
+  
+  /* Dark mode styles */
+  .dark .custom-scrollbar::-webkit-scrollbar-track {
+    background-color: transparent; /* Transparent track in dark mode */
+  }
+  
+  .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #a3a3a3; /* Neutral-400 thumb in dark mode */
+  }
 }

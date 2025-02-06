@@ -2,12 +2,18 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 import { CodeBlockHeader } from './CodeBlockHeader';
 import { JSX, useCallback, useEffect, useState } from 'react';
 import { useToolbarState } from '@/dir/context/ToolbarContext'; // Import the toolbar state to get language
-import { $getNodeByKey, $getSelection, $isRangeSelection, $isRootOrShadowRoot, COMMAND_PRIORITY_CRITICAL, NodeKey, SELECTION_CHANGE_COMMAND } from 'lexical';
+import { $getNodeByKey, $getSelection, $isRangeSelection, $isRootOrShadowRoot, COMMAND_PRIORITY_CRITICAL, LexicalEditor, NodeKey, SELECTION_CHANGE_COMMAND } from 'lexical';
 import { $isCodeNode } from '@/dir/nodes/CodeNode';
 import { CODE_LANGUAGE_MAP } from '@/dir/nodes/CodeHighlightNode';
 import { $findMatchingParent } from '@lexical/utils';
+import { registerCodeHighlighting } from '@/dir/utils/CodeBlockPlugin';
 
-export default function CodeBlockPlugin({ activeEditor, setActiveEditor, onCopy, isEditable }): JSX.Element | null {
+interface CodeBlockPluginProps {
+  activeEditor: LexicalEditor;
+  setActiveEditor: React.Dispatch<React.SetStateAction<LexicalEditor>>;
+}
+
+export default function CodeBlockPlugin({ activeEditor, setActiveEditor }: CodeBlockPluginProps): JSX.Element | null {
   const [editor] = useLexicalComposerContext();
   const { toolbarState, updateToolbarState } = useToolbarState(); // Assuming toolbarState contains the language
   const [selectedElementKey, setSelectedElementKey] = useState<NodeKey | null>(null);
@@ -84,15 +90,16 @@ export default function CodeBlockPlugin({ activeEditor, setActiveEditor, onCopy,
     });
   }, [activeEditor, $updateToolbar]);
 
+  //UseEffect for the prism highlighter
+  useEffect(() => {
+    return registerCodeHighlighting(editor);
+  }, [editor]);
+  
+
   return (
     <CodeBlockHeader
       language={language} // Pass the language directly
       onLanguageChange={onCodeLanguageSelect} // Pass the language change handler
-      editor={editor}
-      activeEditor={activeEditor}
-      setActiveEditor={setActiveEditor}
-      onCopy={onCopy}
-      isEditable={isEditable}
     />
   );
 }

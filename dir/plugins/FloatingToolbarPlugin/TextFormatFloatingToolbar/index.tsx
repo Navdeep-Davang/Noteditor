@@ -325,13 +325,6 @@ export default function TextFormatFloatingToolbar({
       updateToolbarState('isCapitalize', selection.hasFormat('capitalize'));
     }
   }, [activeEditor, editor, updateToolbarState]);
-
-
-
-
-
-
-
   
   
   
