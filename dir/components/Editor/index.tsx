@@ -90,7 +90,7 @@ export default function Editor(): React.JSX.Element {
         editor={activeEditor}
         setIsLinkEditMode={setIsLinkEditMode}
       />
-
+  
       
       {floatingAnchorElem && !isSmallWidthViewport && (
         <>         
