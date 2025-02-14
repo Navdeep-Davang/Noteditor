@@ -1,3 +1,4 @@
 @import "./FloatingLinkEditorPlugin/index.css";
 @import "./FloatingToolbarPlugin/index.css";
-@import "./CodeBlockPlugin/index.css"
+@import "./CodeBlockPlugin/index.css";
+@import "./ToolbarPlugin/index.css"

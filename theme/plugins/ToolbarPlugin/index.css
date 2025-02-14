@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+    :root {
+      --Toolbar-Bg: #ffffff;
+      --Toolbar-Shadow: rgba(0, 0, 0, 0.3);
+      --Toolbar-Item-Hover: #eee;
+      --Toolbar-Item-Active: #ddd;
+      --Toolbar-Icon-Opacity: 0.7;
+      --Toolbar-Icon-Disabled: 0.3;
+      --Toolbar-Text: #444;
+      --Toolbar-Border: #ddd;
+    }
+  
+    .dark {
+      --Toolbar-Bg: #1f1f1f;
+      --Toolbar-Shadow: rgba(255, 255, 255, 0.1);
+      --Toolbar-Item-Hover: rgba(255, 255, 255, 0.2);
+      --Toolbar-Item-Active: rgba(255, 255, 255, 0.3);
+      --Toolbar-Icon-Opacity: 0.8;
+      --Toolbar-Icon-Disabled: 0.4;
+      --Toolbar-Text: #ccc;
+      --Toolbar-Border: #333;
+    }
+  }
+  
+  @layer components {
+    .toolbar-container {
+      @apply flex items-center bg-[var(--Toolbar-Bg)] p-2 shadow-[0px_4px_8px_var(--Toolbar-Shadow)] border border-[var(--Toolbar-Border)] rounded-md;
+    }
+  
+    .toolbar-btn {
+      @apply flex cursor-pointer items-center justify-center rounded-md p-2 transition-colors hover:bg-[var(--Toolbar-Item-Hover)] disabled:cursor-not-allowed;
+    }   
+  
+    .toolbar-btn.active {
+      @apply bg-[var(--Toolbar-Item-Active)];
+    }
+  
+    .toolbar-btn svg {
+      @apply h-[20px] w-[20px] opacity-[var(--Toolbar-Icon-Opacity)];
+    }
+  
+    .toolbar-btn:disabled svg {
+      @apply opacity-[var(--Toolbar-Icon-Disabled)];
+    }
+  
+    .toolbar-container .divider {
+      @apply w-[1px] min-h-[20px] bg-[var(--Toolbar-Text)] mx-[6px];
+    }
+  }
+  

@@ -18,10 +18,15 @@ import {
   SELECTION_CHANGE_COMMAND,
   UNDO_COMMAND,
 } from 'lexical';
-import { AlignCenter, AlignJustify, AlignLeft, AlignRight, Bold, Italic, Redo, Strikethrough, Underline, Undo } from 'lucide-react';
+import { AlignCenter, AlignJustify, AlignLeft, AlignRight, Bold, Italic, Redo, Strikethrough, TerminalSquare, Underline, Undo } from 'lucide-react';
 import {useCallback, useEffect, useRef, useState} from 'react';
+import { INSERT_MONACO_COMMAND } from '../MonacoPlugin';
 
 const LowPriority = 1;
+
+function Divider() {
+    return <div className="divider" />;
+}
 
 export default function ToolbarPlugin() {
   const [editor] = useLexicalComposerContext();
@@ -79,88 +84,77 @@ export default function ToolbarPlugin() {
   }, [editor, $updateToolbar]);
 
   return (
-    <div className="toolbar" ref={toolbarRef}>
+    <div className="toolbar-container my-4" ref={toolbarRef}>
       <button
         disabled={!canUndo}
-        onClick={() => {
-          editor.dispatchCommand(UNDO_COMMAND, undefined);
-        }}
-        className="toolbar-item spaced"
+        onClick={() => editor.dispatchCommand(UNDO_COMMAND, undefined)}
+        className="toolbar-btn "
         aria-label="Undo">
         <Undo size={18} />
       </button>
       <button
         disabled={!canRedo}
-        onClick={() => {
-          editor.dispatchCommand(REDO_COMMAND, undefined);
-        }}
-        className="toolbar-item"
+        onClick={() => editor.dispatchCommand(REDO_COMMAND, undefined)}
+        className="toolbar-btn"
         aria-label="Redo">
         <Redo size={18} />
       </button>
+      <Divider />
       <button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold');
-        }}
-        className={'toolbar-item spaced ' + (isBold ? 'active' : '')}
-        aria-label="Format Bold">
+        onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold')}
+        className={`toolbar-btn  ${isBold ? 'active' : ''}`}
+        aria-label="Bold">
         <Bold size={18} />
       </button>
       <button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic');
-        }}
-        className={'toolbar-item spaced ' + (isItalic ? 'active' : '')}
-        aria-label="Format Italics">
+        onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic')}
+        className={`toolbar-btn  ${isItalic ? 'active' : ''}`}
+        aria-label="Italic">
         <Italic size={18} />
       </button>
       <button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline');
-        }}
-        className={'toolbar-item spaced ' + (isUnderline ? 'active' : '')}
-        aria-label="Format Underline">
+        onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline')}
+        className={`toolbar-btn  ${isUnderline ? 'active' : ''}`}
+        aria-label="Underline">
         <Underline size={18} />
       </button>
       <button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough');
-        }}
-        className={'toolbar-item spaced ' + (isStrikethrough ? 'active' : '')}
-        aria-label="Format Strikethrough">
+        onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough')}
+        className={`toolbar-btn  ${isStrikethrough ? 'active' : ''}`}
+        aria-label="Strikethrough">
         <Strikethrough size={18} />
       </button>
+      <Divider />
       <button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left');
-        }}
-        className="toolbar-item spaced"
+        onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left')}
+        className="toolbar-btn "
         aria-label="Left Align">
         <AlignLeft size={18} />
       </button>
       <button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center');
-        }}
-        className="toolbar-item spaced"
+        onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center')}
+        className="toolbar-btn "
         aria-label="Center Align">
         <AlignCenter size={18} />
       </button>
       <button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right');
-        }}
-        className="toolbar-item spaced"
+        onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right')}
+        className="toolbar-btn "
         aria-label="Right Align">
         <AlignRight size={18} />
       </button>
       <button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'justify');
-        }}
-        className="toolbar-item"
+        onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'justify')}
+        className="toolbar-btn"
         aria-label="Justify Align">
         <AlignJustify size={18} />
+      </button>
+      <Divider />
+      <button
+        onClick={() => editor.dispatchCommand(INSERT_MONACO_COMMAND, {language: 'javascript', code:''})}
+        className="monaco-btn"
+        aria-label="Monaco Block">
+        <TerminalSquare size={18} />
       </button>
     </div>
   );

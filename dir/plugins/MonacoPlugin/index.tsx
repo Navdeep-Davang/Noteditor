@@ -13,33 +13,6 @@ import { $createMonacoNode, MonacoNode } from '../../nodes/MonacoNode';
 export const INSERT_MONACO_COMMAND: LexicalCommand<{ language: string; code: string }> =
   createCommand('INSERT_MONACO_COMMAND');
 
-// export function InsertMonacoDialog({
-//   activeEditor,
-//   onClose,
-// }: {
-//   activeEditor: LexicalEditor;
-//   onClose: () => void;
-// }): JSX.Element {
-//   const [language, setLanguage] = useState('javascript');
-//   const [code, setCode] = useState('');
-
-//   const onClick = () => {
-//     activeEditor.dispatchCommand(INSERT_MONACO_COMMAND, { language, code });
-//     onClose();
-//   };
-
-//   return (
-//     <>
-//       <TextInput label="Language" onChange={setLanguage} value={language} />
-//       <TextInput label="Code" onChange={setCode} value={code} multiline />
-//       <DialogActions>
-//         <Button disabled={code.trim() === ''} onClick={onClick}>
-//           Confirm
-//         </Button>
-//       </DialogActions>
-//     </>
-//   );
-// }
 
 export default function MonacoPlugin(): JSX.Element | null {
   const [editor] = useLexicalComposerContext();

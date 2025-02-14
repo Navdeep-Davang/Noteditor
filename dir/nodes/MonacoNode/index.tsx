@@ -61,6 +61,14 @@ export class MonacoNode extends DecoratorNode<JSX.Element> {
     };
   }
 
+  getCode(): string {
+    return this.__code;
+  }
+  
+  getLanguage(): string {
+    return this.__language;
+  }
+
   setLanguage(language: string): void {
     const self = this.getWritable();
     self.__language = language;
@@ -100,9 +108,10 @@ export class MonacoNode extends DecoratorNode<JSX.Element> {
   }
 
   decorate(): JSX.Element {
+    
     return (
       <Suspense fallback={null}>
-        <MonacoEditorComponent language={this.__language} value={this.__code} onChange={(newValue) => this.__code = newValue} />
+        <MonacoEditorComponent nodeKey={this.__key}/>
 
       </Suspense>
     );

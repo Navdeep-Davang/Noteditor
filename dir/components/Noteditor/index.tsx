@@ -44,7 +44,7 @@ export default function NotEditor(): React.JSX.Element {
                 <Editor />               
               </div>
             </ToolbarContext>
-          {/* </TableContext>         */}
+          {/* </TableContext> */}
       </LexicalComposer>
     
   );
