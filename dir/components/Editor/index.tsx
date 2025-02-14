@@ -24,6 +24,8 @@ import FloatingLinkEditorPlugin from "@/dir/plugins/FloatingLinkEditorPlugin";
 import FloatingToolbarPlugin from "@/dir/plugins/FloatingToolbarPlugin";
 import TreeViewPlugin from "@/dir/plugins/TreeViewPlugin";
 import CodeBlockPlugin from "@/dir/plugins/CodeBlockPlugin";
+import MonacoPlugin from "@/dir/plugins/MonacoPlugin";
+import ToolbarPlugin from "@/dir/plugins/ToolbarPlugin";
 
 
 export default function Editor(): React.JSX.Element {
@@ -62,6 +64,7 @@ export default function Editor(): React.JSX.Element {
 
   return (
     <div className="editor-container">
+      <ToolbarPlugin/>
       <AutoFocusPlugin />
       <ClearEditorPlugin />
       <HashtagPlugin />
@@ -70,6 +73,7 @@ export default function Editor(): React.JSX.Element {
       <LinkPlugin/>
       <CheckListPlugin />
       <CodeBlockPlugin activeEditor={activeEditor} setActiveEditor={setActiveEditor}/>
+      <MonacoPlugin/>
       <TablePlugin />
       <TabIndentationPlugin maxIndent={7} />
       <SelectionAlwaysOnDisplay />      

@@ -535,7 +535,7 @@ export default function TextFormatFloatingToolbar({
             title="Insert code block"
             aria-label="Insert code block">
             <Code size={16} className="icon-color"/>
-          </button>
+          </button>          
           <button
             type="button"
             onClick={insertLink}

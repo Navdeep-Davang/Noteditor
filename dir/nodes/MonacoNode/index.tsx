@@ -14,7 +14,7 @@ import { Suspense } from 'react';
 
 const MonacoEditorComponent = React.lazy(() => import('./MonacoEditorComponent'));
 
-export type SerializedCodeBlockNode = Spread<
+export type SerializedMonacoNode = Spread<
   {
     language: string;
     code: string;
@@ -26,25 +26,25 @@ function $convertCodeBlockElement(domNode: HTMLElement): DOMConversionOutput | n
   const language = domNode.getAttribute('data-lexical-code-language');
   const code = domNode.getAttribute('data-lexical-code-content');
   if (language !== null && code !== null) {
-    return { node: $createCodeBlockNode(language, code) };
+    return { node: $createMonacoNode(language, code) };
   }
   return null;
 }
 
-export class CodeBlockNode extends DecoratorNode<JSX.Element> {
+export class MonacoNode extends DecoratorNode<JSX.Element> {
   __language: string;
   __code: string;
 
   static getType(): string {
-    return 'codeblock';
+    return 'monaco';
   }
 
-  static clone(node: CodeBlockNode): CodeBlockNode {
-    return new CodeBlockNode(node.__language, node.__code, node.__key);
+  static clone(node: MonacoNode): MonacoNode {
+    return new MonacoNode(node.__language, node.__code, node.__key);
   }
 
-  static importJSON(serializedNode: SerializedCodeBlockNode): CodeBlockNode {
-    return $createCodeBlockNode(serializedNode.language, serializedNode.code);
+  static importJSON(serializedNode: SerializedMonacoNode): MonacoNode {
+    return $createMonacoNode(serializedNode.language, serializedNode.code);
   }
 
   constructor(language: string, code: string, key?: NodeKey) {
@@ -53,7 +53,7 @@ export class CodeBlockNode extends DecoratorNode<JSX.Element> {
     this.__code = code;
   }
 
-  exportJSON(): SerializedCodeBlockNode {
+  exportJSON(): SerializedMonacoNode {
     return {
       ...super.exportJSON(),
       language: this.__language,
@@ -109,10 +109,10 @@ export class CodeBlockNode extends DecoratorNode<JSX.Element> {
   }
 }
 
-export function $createCodeBlockNode(language: string, code: string): CodeBlockNode {
-  return new CodeBlockNode(language, code);
+export function $createMonacoNode(language: string, code: string): MonacoNode {
+  return new MonacoNode(language, code);
 }
 
-export function $isCodeBlockNode(node: LexicalNode | null | undefined): node is CodeBlockNode {
-  return node instanceof CodeBlockNode;
+export function $isMonacoNode(node: LexicalNode | null | undefined): node is MonacoNode {
+  return node instanceof MonacoNode;
 }

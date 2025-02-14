@@ -9,8 +9,10 @@ import { LinkNode } from '@lexical/link';
 import { HeadingNode, QuoteNode } from '@lexical/rich-text';
 import { CodeNode } from './CodeNode';
 import { CodeHighlightNode } from './CodeHighlightNode';
+import { MonacoNode } from './MonacoNode';
 
 const Nodes: Array<Klass<LexicalNode>> = [
+  MonacoNode,
   HeadingNode,
   ListNode,
   ListItemNode,
