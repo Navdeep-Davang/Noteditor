@@ -179,34 +179,7 @@ const MonacoEditorComponent: React.FC<MonacoEditorProps> = ({ nodeKey }) => {
             wordWrap: "off",
           }}
         />
-      </VerticalAdjustable>
-  
-      {/* Footer */}
-      <div className="flex items-center justify-between p-2 border-b bg-gray-50 ">
-        <Select onValueChange={(value) => handleLanguageChange(value)} value={language}>
-          <SelectTrigger className="flex items-center justify-between w-28 h-8 text-xs px-2 py-1 border rounded-md shadow-sm  focus:ring-0 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700">
-            <SelectValue placeholder="Select Language" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="javascript">JavaScript</SelectItem>
-            <SelectItem value="typescript">TypeScript</SelectItem>
-            <SelectItem value="python">Python</SelectItem>
-            <SelectItem value="java">Java</SelectItem>
-            <SelectItem value="c">C</SelectItem>
-            <SelectItem value="cpp">C++</SelectItem>
-            <SelectItem value="csharp">C#</SelectItem>
-            <SelectItem value="php">PHP</SelectItem>
-            <SelectItem value="go">Go</SelectItem>
-            <SelectItem value="rust">Rust</SelectItem>
-            <SelectItem value="ruby">Ruby</SelectItem>
-            <SelectItem value="swift">Swift</SelectItem>
-            <SelectItem value="html">HTML</SelectItem>
-            <SelectItem value="css">CSS</SelectItem>
-            <SelectItem value="json">JSON</SelectItem>
-            <SelectItem value="markdown">Markdown</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
+      </VerticalAdjustable>      
     </div>
 
   </div>

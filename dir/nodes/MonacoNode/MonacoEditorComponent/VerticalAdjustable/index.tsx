@@ -113,19 +113,7 @@ export const VerticalAdjustable = ({ children, contentHeight }: VerticalAdjustab
     };
   }, [isResizing, lowerLimit, upperLimit]);
 
-  const handleHeightChange = (newHeight: number) => {
-    const editorElement = monacoContainerRef.current;
-    const scrollTop = editorElement?.scrollTop ?? 0;
-
-    setHeight(newHeight);
-
-    setTimeout(() => {
-      if (editorElement) {
-        editorElement.scrollTop = scrollTop;
-      }
-    }, 0);
-  };
-
+ 
   const handleMouseDown = (event: React.MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
@@ -140,23 +128,15 @@ export const VerticalAdjustable = ({ children, contentHeight }: VerticalAdjustab
       onMouseLeave={() => setIsHovered(false)}
       ref={monacoContainerRef}
     >
+
+      {children}   
+
       <input
         type="text"
         ref={hiddenInputRef}
-        style={{ position: "absolute", opacity: 0, pointerEvents: "none" }}
+        style={{ position: "absolute", opacity: 0, pointerEvents: "none"}}
+        className="hidden"
       />
-
-      {children}
-
-      <div className="adjustable-footer absolute bottom-1 w-full h-16 flex flex-col items-center justify-center bg-slate-100">
-        <input
-          type="number"
-          className="border p-1 rounded"
-          value={height}
-          onChange={(e) => handleHeightChange(Number(e.target.value))}
-        />
-      </div>
-
       <div
         className={`absolute bottom-1 right-1 p-1 -rotate-90 cursor-ns-resize transition-all
           ${isResizing || isHovered ? "text-slate-400" : "opacity-0"}
