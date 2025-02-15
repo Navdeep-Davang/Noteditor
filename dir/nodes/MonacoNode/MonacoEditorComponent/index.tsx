@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { VerticalAdjustable } from "./VerticalAdjustable";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { useLexicalNodeSelection } from "@lexical/react/useLexicalNodeSelection";
-import { $getNodeByKey } from "lexical";
+import { $getNodeByKey, COMMAND_PRIORITY_LOW, KEY_DELETE_COMMAND } from "lexical";
 import { $isMonacoNode, MonacoNode } from "..";
 
 interface MonacoEditorProps {
@@ -37,6 +37,7 @@ const MonacoEditorComponent: React.FC<MonacoEditorProps> = ({ nodeKey }) => {
     }, { onUpdate });
   };
 
+  //UseEffect to update the MonacoNode content
   useEffect(() => {
     editor.getEditorState().read(() => {
       const node = $getNodeByKey(nodeKey);
@@ -47,7 +48,29 @@ const MonacoEditorComponent: React.FC<MonacoEditorProps> = ({ nodeKey }) => {
     });
   }, [editor, nodeKey]);
 
-  
+  //UseEffect to delete the MonacoNode content
+  useEffect(() => {
+    const $onDelete = (payload: KeyboardEvent) => {
+      if (isSelected) {
+        payload.preventDefault();
+        editor.update(() => {
+          const node = $getNodeByKey(nodeKey);
+          if ($isMonacoNode(node)) {
+            node.remove();
+          }
+        });
+      }
+      return false;
+    };
+
+    return editor.registerCommand(
+      KEY_DELETE_COMMAND,
+      $onDelete,
+      COMMAND_PRIORITY_LOW
+    );
+  }, [editor, isSelected, nodeKey]);
+
+
   const handleEditorMount = (monacoeditor: monacoEditor.editor.IStandaloneCodeEditor) => {
     const model = monacoeditor.getModel();
     if (model) {
@@ -93,34 +116,42 @@ const MonacoEditorComponent: React.FC<MonacoEditorProps> = ({ nodeKey }) => {
   };
 
   return (
-    <div className='monaco-block-wrapper w-full max-w-[800px] justify-center'>
+    <div 
+      className='monaco-block-wrapper my-4 w-full max-w-[800px] justify-center'
+      onClick={(event) => {
+        if (!event.shiftKey) {
+          clearSelection();
+        }
+        setSelected(!isSelected);
+      }}
+    >
 
-    <div className="monaco-block flex flex-col w-full h-full border rounded-lg shadow-md">
+    <div className="monaco-block overflow-hidden flex flex-col w-full h-full border rounded-lg shadow-md">
       {/* Header */}
       <div className="flex items-center justify-between p-2 border-b bg-gray-50 ">
-          <Select onValueChange={(value) => handleLanguageChange(value)} value={language}>
-            <SelectTrigger className="flex items-center justify-between w-28 h-8 text-xs px-2 py-1 border rounded-md shadow-sm  focus:ring-0 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700">
-              <SelectValue placeholder="Select Language" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="javascript">JavaScript</SelectItem>
-              <SelectItem value="typescript">TypeScript</SelectItem>
-              <SelectItem value="python">Python</SelectItem>
-              <SelectItem value="java">Java</SelectItem>
-              <SelectItem value="c">C</SelectItem>
-              <SelectItem value="cpp">C++</SelectItem>
-              <SelectItem value="csharp">C#</SelectItem>
-              <SelectItem value="php">PHP</SelectItem>
-              <SelectItem value="go">Go</SelectItem>
-              <SelectItem value="rust">Rust</SelectItem>
-              <SelectItem value="ruby">Ruby</SelectItem>
-              <SelectItem value="swift">Swift</SelectItem>
-              <SelectItem value="html">HTML</SelectItem>
-              <SelectItem value="css">CSS</SelectItem>
-              <SelectItem value="json">JSON</SelectItem>
-              <SelectItem value="markdown">Markdown</SelectItem>
-            </SelectContent>
-          </Select>
+        <Select onValueChange={(value) => handleLanguageChange(value)} value={language}>
+          <SelectTrigger className="flex items-center justify-between w-28 h-8 text-xs px-2 py-1 border rounded-md shadow-sm  focus:ring-0 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700">
+            <SelectValue placeholder="Select Language" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="javascript">JavaScript</SelectItem>
+            <SelectItem value="typescript">TypeScript</SelectItem>
+            <SelectItem value="python">Python</SelectItem>
+            <SelectItem value="java">Java</SelectItem>
+            <SelectItem value="c">C</SelectItem>
+            <SelectItem value="cpp">C++</SelectItem>
+            <SelectItem value="csharp">C#</SelectItem>
+            <SelectItem value="php">PHP</SelectItem>
+            <SelectItem value="go">Go</SelectItem>
+            <SelectItem value="rust">Rust</SelectItem>
+            <SelectItem value="ruby">Ruby</SelectItem>
+            <SelectItem value="swift">Swift</SelectItem>
+            <SelectItem value="html">HTML</SelectItem>
+            <SelectItem value="css">CSS</SelectItem>
+            <SelectItem value="json">JSON</SelectItem>
+            <SelectItem value="markdown">Markdown</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Editor */}
@@ -150,7 +181,32 @@ const MonacoEditorComponent: React.FC<MonacoEditorProps> = ({ nodeKey }) => {
         />
       </VerticalAdjustable>
   
-     
+      {/* Footer */}
+      <div className="flex items-center justify-between p-2 border-b bg-gray-50 ">
+        <Select onValueChange={(value) => handleLanguageChange(value)} value={language}>
+          <SelectTrigger className="flex items-center justify-between w-28 h-8 text-xs px-2 py-1 border rounded-md shadow-sm  focus:ring-0 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700">
+            <SelectValue placeholder="Select Language" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="javascript">JavaScript</SelectItem>
+            <SelectItem value="typescript">TypeScript</SelectItem>
+            <SelectItem value="python">Python</SelectItem>
+            <SelectItem value="java">Java</SelectItem>
+            <SelectItem value="c">C</SelectItem>
+            <SelectItem value="cpp">C++</SelectItem>
+            <SelectItem value="csharp">C#</SelectItem>
+            <SelectItem value="php">PHP</SelectItem>
+            <SelectItem value="go">Go</SelectItem>
+            <SelectItem value="rust">Rust</SelectItem>
+            <SelectItem value="ruby">Ruby</SelectItem>
+            <SelectItem value="swift">Swift</SelectItem>
+            <SelectItem value="html">HTML</SelectItem>
+            <SelectItem value="css">CSS</SelectItem>
+            <SelectItem value="json">JSON</SelectItem>
+            <SelectItem value="markdown">Markdown</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
     </div>
 
   </div>
