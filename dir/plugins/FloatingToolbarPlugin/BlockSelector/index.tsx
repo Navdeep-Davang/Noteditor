@@ -5,7 +5,6 @@ import { $createParagraphNode, $getSelection, $isRangeSelection, LexicalEditor }
 import { $setBlocksType } from "@lexical/selection";
 import { $createHeadingNode, $createQuoteNode, HeadingTagType } from "@lexical/rich-text";
 import { INSERT_CHECK_LIST_COMMAND, INSERT_ORDERED_LIST_COMMAND, INSERT_UNORDERED_LIST_COMMAND } from "@lexical/list";
-import { $createCodeNode } from "@/dir/utils/CodeBlockPlugin";
 import { SHORTCUTS } from "../../ShortcutsPlugin/shortcuts";
 import { dropDownActiveClass } from "@/dir/utils/dropDownActiveClass";
 
@@ -104,27 +103,6 @@ export const formatQuote = (editor: LexicalEditor, blockType: string) => {
   }
 };
 
-export const formatCode = (editor: LexicalEditor, blockType: string) => {
-  if (blockType !== 'code') {
-    editor.update(() => {
-      let selection = $getSelection();
-
-      if (selection !== null) {
-        if (selection.isCollapsed()) {
-          $setBlocksType(selection, () => $createCodeNode());
-        } else {
-          const textContent = selection.getTextContent();
-          const codeNode = $createCodeNode();
-          selection.insertNodes([codeNode]);
-          selection = $getSelection();
-          if ($isRangeSelection(selection)) {
-            selection.insertRawText(textContent);
-          }
-        }
-      }
-    });
-  }
-};
 
 
 export function BlockSelector({ editor, blockType, disabled = false }: BlockSelectorProps): React.JSX.Element {
@@ -156,10 +134,7 @@ export function BlockSelector({ editor, blockType, disabled = false }: BlockSele
             break;
           case "quote":
             formatQuote(editor, blockType);
-            break;
-          case "code":
-            formatCode(editor, blockType);
-            break;
+            break;          
           default:
             break;
         }

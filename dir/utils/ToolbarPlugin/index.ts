@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import {$createCodeNode} from '@/dir/utils/CodeBlockPlugin';
 import {
   INSERT_CHECK_LIST_COMMAND,
   INSERT_ORDERED_LIST_COMMAND,
@@ -213,27 +212,7 @@ export const formatQuote = (editor: LexicalEditor, blockType: string) => {
   }
 };
 
-export const formatCode = (editor: LexicalEditor, blockType: string) => {
-  if (blockType !== 'code') {
-    editor.update(() => {
-      let selection = $getSelection();
 
-      if (selection !== null) {
-        if (selection.isCollapsed()) {
-          $setBlocksType(selection, () => $createCodeNode());
-        } else {
-          const textContent = selection.getTextContent();
-          const codeNode = $createCodeNode();
-          selection.insertNodes([codeNode]);
-          selection = $getSelection();
-          if ($isRangeSelection(selection)) {
-            selection.insertRawText(textContent);
-          }
-        }
-      }
-    });
-  }
-};
 
 export const clearFormatting = (editor: LexicalEditor) => {
   editor.update(() => {

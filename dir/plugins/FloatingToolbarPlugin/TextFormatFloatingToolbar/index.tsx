@@ -2,12 +2,10 @@
 
 import { Bold, Italic, Underline, Strikethrough, Subscript, Superscript, Code, Link, CaseUpper, CaseLower } from 'lucide-react';
 
-import {$isCodeNode, CODE_LANGUAGE_FRIENDLY_NAME_MAP, CODE_LANGUAGE_MAP, getLanguageFriendlyName} from '@/dir/utils/CodeBlockPlugin';
 import {$isLinkNode, TOGGLE_LINK_COMMAND} from '@lexical/link';
 import {$findMatchingParent, $getNearestNodeOfType, $isEditorIsNestedEditor, mergeRegister} from '@lexical/utils';
 
 import {
-    $getNodeByKey,
     $getSelection,
     $isElementNode,
     $isRangeSelection,
@@ -17,7 +15,6 @@ import {
     FORMAT_TEXT_COMMAND,
     getDOMSelection,
     LexicalEditor,
-    NodeKey,
     SELECTION_CHANGE_COMMAND,
   } from 'lexical';
 
@@ -30,13 +27,11 @@ import { $getSelectionStyleValueForProperty, $isParentElementRTL } from '@lexica
 import { $isListNode, ListNode } from '@lexical/list';
 import { $isHeadingNode } from '@lexical/rich-text';
 import { $isTableSelection } from '@lexical/table';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 
 import {Dispatch, useCallback, useEffect, useRef, useState} from 'react';
 import * as React from 'react';
 import {getSelectedNode} from '@/dir/utils/getSelectedNode';
-import { dropDownActiveClass } from '@/dir/utils/dropDownActiveClass';
 
 
 
@@ -78,7 +73,6 @@ export default function TextFormatFloatingToolbar({
   const popupCharStylesEditorRef = useRef<HTMLDivElement | null>(null);
   const [isEditable, setIsEditable] = useState(() => editor.isEditable());
   const {toolbarState, updateToolbarState} = useToolbarState();
-  const [selectedElementKey, setSelectedElementKey] = useState<NodeKey | null>(null);
 
   const insertLink = useCallback(() => {
     if (!isLink) {
@@ -91,35 +85,8 @@ export default function TextFormatFloatingToolbar({
   }, [editor, isLink, setIsLinkEditMode]);
 
 
-  function getCodeLanguageOptions(): [string, string][] {
-    const options: [string, string][] = [];
-  
-    for (const [lang, friendlyName] of Object.entries(
-      CODE_LANGUAGE_FRIENDLY_NAME_MAP,
-    )) {
-      options.push([lang, friendlyName]);
-    }
-  
-    return options;
-  }
- 
-
-  const CODE_LANGUAGE_OPTIONS = getCodeLanguageOptions();
   
   
-  const onCodeLanguageSelect = useCallback(
-    (value: string) => {
-      activeEditor.update(() => {
-        if (selectedElementKey !== null) {
-          const node = $getNodeByKey(selectedElementKey);
-          if ($isCodeNode(node)) {
-            node.setLanguage(value);
-          }
-        }
-      });
-    },
-    [activeEditor, selectedElementKey],
-  );
 
   function mouseMoveListener(e: MouseEvent) {
     if (
@@ -236,7 +203,6 @@ export default function TextFormatFloatingToolbar({
 
       
       if (elementDOM !== null) {
-        setSelectedElementKey(elementKey);
         if ($isListNode(element)) {
           const parentList = $getNearestNodeOfType<ListNode>(
             anchorNode,
@@ -257,15 +223,7 @@ export default function TextFormatFloatingToolbar({
               type as keyof typeof blockTypeToBlockName,
             );
           }
-          if ($isCodeNode(element)) {
-            const language =
-              element.getLanguage() as keyof typeof CODE_LANGUAGE_MAP;
-            updateToolbarState(
-              'codeLanguage',
-              language ? CODE_LANGUAGE_MAP[language] || language : '',
-            );
-            return;
-          }
+          
         }
       }
       // Handle buttons
@@ -408,33 +366,7 @@ export default function TextFormatFloatingToolbar({
             disabled={!isEditable}
             blockType={toolbarState.blockType}            
             editor={editor} 
-          />
-
-        {toolbarState.blockType === 'code' && (
-          <Select
-            disabled={!isEditable}
-            value={toolbarState.codeLanguage}
-            onValueChange={onCodeLanguageSelect}
-            aria-label="Select language"
-          >
-            <SelectTrigger>
-              <SelectValue>{getLanguageFriendlyName(toolbarState.codeLanguage)}</SelectValue>
-            </SelectTrigger>
-            <SelectContent className="toolbar-item code-language">
-              {CODE_LANGUAGE_OPTIONS.map(([value, name]) => (
-                <SelectItem
-                  key={value}
-                  value={value}
-                  className={`item ${dropDownActiveClass(value === toolbarState.codeLanguage)}`}
-                >
-                  <span className="text">{name}</span>
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        )}
-
-          
+          />         
 
           <button
             type="button"

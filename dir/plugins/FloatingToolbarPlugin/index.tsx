@@ -7,15 +7,12 @@
  */
 
 
-import {$isCodeHighlightNode} from '@/dir/utils/CodeBlockPlugin';
 import {$isLinkNode} from '@lexical/link';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {mergeRegister} from '@lexical/utils';
 import {
   $getSelection,
-  $isParagraphNode,
   $isRangeSelection,
-  $isTextNode,
   getDOMSelection,
   LexicalEditor,
 } from 'lexical';
@@ -94,14 +91,7 @@ function useFloatingToolbar(
         setIsLink(false);
       }
 
-      if (
-        !$isCodeHighlightNode(selection.anchor.getNode()) &&
-        selection.getTextContent() !== ''
-      ) {
-        setIsText($isTextNode(node) || $isParagraphNode(node));
-      } else {
-        setIsText(false);
-      }
+    
 
       const rawTextContent = selection.getTextContent().replace(/\n/g, '');
       if (!selection.isCollapsed() && rawTextContent === '') {

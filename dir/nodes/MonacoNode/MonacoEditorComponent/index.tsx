@@ -121,7 +121,7 @@ const MonacoEditorComponent: React.FC<MonacoEditorProps> = ({ nodeKey }) => {
 
   return (
     <div 
-      className='monaco-block-wrapper my-4 w-full max-w-[800px] justify-center'
+      className='monaco-block-wrapper my-4 w-full justify-center'
       onClick={(event) => {
         if (!event.shiftKey) {
           clearSelection();

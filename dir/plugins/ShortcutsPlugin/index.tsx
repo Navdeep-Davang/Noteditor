@@ -25,7 +25,6 @@ import {
   clearFormatting,
   formatBulletList,
   formatCheckList,
-  formatCode,
   formatHeading,
   formatNumberedList,
   formatParagraph,
@@ -40,7 +39,6 @@ import {
   isDecreaseFontSize,
   isFormatBulletList,
   isFormatCheckList,
-  isFormatCode,
   isFormatHeading,
   isFormatNumberedList,
   isFormatParagraph,
@@ -90,9 +88,6 @@ export default function ShortcutsPlugin({
       } else if (isFormatCheckList(event)) {
         event.preventDefault();
         formatCheckList(editor, toolbarState.blockType);
-      } else if (isFormatCode(event)) {
-        event.preventDefault();
-        formatCode(editor, toolbarState.blockType);
       } else if (isFormatQuote(event)) {
         event.preventDefault();
         formatQuote(editor, toolbarState.blockType);

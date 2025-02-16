@@ -23,7 +23,6 @@ import { CAN_USE_DOM } from "@/dir/shared/canUseDOM";
 import FloatingLinkEditorPlugin from "@/dir/plugins/FloatingLinkEditorPlugin";
 import FloatingToolbarPlugin from "@/dir/plugins/FloatingToolbarPlugin";
 import TreeViewPlugin from "@/dir/plugins/TreeViewPlugin";
-import CodeBlockPlugin from "@/dir/plugins/CodeBlockPlugin";
 import MonacoPlugin from "@/dir/plugins/MonacoPlugin";
 import ToolbarPlugin from "@/dir/plugins/ToolbarPlugin";
 
@@ -72,7 +71,6 @@ export default function Editor(): React.JSX.Element {
       <ListPlugin />
       <LinkPlugin/>
       <CheckListPlugin />
-      <CodeBlockPlugin activeEditor={activeEditor} setActiveEditor={setActiveEditor}/>
       <MonacoPlugin/>
       <TablePlugin />
       <TabIndentationPlugin maxIndent={7} />

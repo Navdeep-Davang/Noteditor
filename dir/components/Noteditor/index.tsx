@@ -3,8 +3,6 @@
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { $createParagraphNode, $createTextNode, $getRoot } from 'lexical';
 import EditorTheme from './EditorTheme';
-// import { TableContext } from '../Editor/plugins/TablePlugin';
-// import { ToolbarContext } from '../Editor/context/ToolbarContext';
 import Nodes from '../../nodes';
 import React from 'react';
 import dynamic from 'next/dynamic';
