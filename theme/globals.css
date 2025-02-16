@@ -1,5 +1,6 @@
 @import "./components/index.css";
 @import "./plugins/index.css";
+@import "./nodes/index.css";
 
 @tailwind base;
 @tailwind components;

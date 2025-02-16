@@ -49,12 +49,7 @@ export const VerticalAdjustable = ({ children, contentHeight }: VerticalAdjustab
         }
 
         if (adjustedHeight < DEFAULT_LOWER_LIMIT) {
-          if (prevHeight < adjustedHeight) {
-            return prevHeight < lowerLimit ? upperLimit : prevHeight;
-          }
-          if (prevHeight > adjustedHeight) {
-            return prevHeight > upperLimit ? upperLimit : prevHeight;
-          }
+          return adjustedHeight;
         }
 
         if (prevHeight > adjustedHeight) {
@@ -122,7 +117,7 @@ export const VerticalAdjustable = ({ children, contentHeight }: VerticalAdjustab
 
   return (
     <div
-      className="vertical-adjustable relative w-full rounded-lg border shadow-md overflow-hidden"
+      className="vertical-adjustable relative w-full rounded-bl-lg rounded-br-lg border shadow-md overflow-hidden"
       style={{ height }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -138,15 +133,13 @@ export const VerticalAdjustable = ({ children, contentHeight }: VerticalAdjustab
         className="hidden"
       />
       <div
-        className={`absolute bottom-1 right-1 p-1 -rotate-90 cursor-ns-resize transition-all
-          ${isResizing || isHovered ? "text-slate-400" : "opacity-0"}
-          ${isResizing ? "bg-slate-400/50 rounded-full" : ""}
-          hover:bg-slate-400/50 hover:rounded-full
-        `}
+        className={`absolute bottom-1 right-1 p-1 -rotate-90 cursor-ns-resize height-adjuster 
+          ${isResizing || isHovered ? "opacity-100" : "opacity-0"}`}
         onMouseDown={handleMouseDown}
       >
         <Axis3d size={20} />
       </div>
+
     </div>
   );
 };

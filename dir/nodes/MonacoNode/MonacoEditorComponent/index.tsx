@@ -7,12 +7,16 @@ import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext
 import { useLexicalNodeSelection } from "@lexical/react/useLexicalNodeSelection";
 import { $getNodeByKey, COMMAND_PRIORITY_LOW, KEY_DELETE_COMMAND } from "lexical";
 import { $isMonacoNode, MonacoNode } from "..";
+import { useTheme } from "next-themes";
+import { ChevronDown } from "lucide-react";
 
 interface MonacoEditorProps {
   nodeKey : string
 }
 
 const MonacoEditorComponent: React.FC<MonacoEditorProps> = ({ nodeKey }) => {
+  const { theme } = useTheme();
+  const monacoTheme = theme === "dark" ? "vs-dark" : "light";
 
   const [editor] = useLexicalComposerContext();
   const [isSelected, setSelected, clearSelection] = useLexicalNodeSelection(nodeKey);
@@ -128,10 +132,11 @@ const MonacoEditorComponent: React.FC<MonacoEditorProps> = ({ nodeKey }) => {
 
     <div className="monaco-block overflow-hidden flex flex-col w-full h-full border rounded-lg shadow-md">
       {/* Header */}
-      <div className="flex items-center justify-between p-2 border-b bg-gray-50 ">
+      <div className="monaco-header flex items-center justify-between p-1 border-b ">
         <Select onValueChange={(value) => handleLanguageChange(value)} value={language}>
-          <SelectTrigger className="flex items-center justify-between w-28 h-8 text-xs px-2 py-1 border rounded-md shadow-sm  focus:ring-0 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700">
+          <SelectTrigger className="monaco-selector flex items-center justify-between w-fit h-fit gap-2  text-[10px] px-1.5 py-1 border rounded-md shadow-sm  focus:ring-0">
             <SelectValue placeholder="Select Language" />
+            <ChevronDown className="h-3 w-3 opacity-50" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="javascript">JavaScript</SelectItem>
@@ -163,7 +168,7 @@ const MonacoEditorComponent: React.FC<MonacoEditorProps> = ({ nodeKey }) => {
           value={code}
           onChange={(value) => handleCodeChange(value || "" )}
           onMount={handleEditorMount}
-          theme= "vs-dark"
+          theme={monacoTheme}
           options={{
             minimap: { enabled: false }, // Disable minimap
             overviewRulerLanes: 0, // Hide decorationsOverviewRuler

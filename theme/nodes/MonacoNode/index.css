@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --MonacoHeder-Bg: #fbfbfb;
+    --MonacoSelector-Bg: #fafafa;
+    --MonacoSelector-Bg-Hover: #f3f3f3;
+    
+    --Adjuster-Color: rgba(0, 0, 0, 0.6); /* Black with 60% opacity */
+    --Adjuster-Bg: transparent;
+    --Adjuster-Bg-Hover: rgba(0, 0, 0, 0.2); /* Black with 20% opacity */
+    --Adjuster-Rounded: 0;
+    --Adjuster-Rounded-Hover: 50%;
+  }
+
+  .dark {
+    --MonacoHeder-Bg: #161616;   
+    --MonacoSelector-Bg: #292929;
+    --MonacoSelector-Bg-Hover: #343434;
+
+    --Adjuster-Color: rgba(255, 255, 255, 0.6); /* White with 60% opacity */
+    --Adjuster-Bg: transparent;
+    --Adjuster-Bg-Hover: rgba(255, 255, 255, 0.2); /* White with 20% opacity */
+  }
+}
+
+
+@layer components {
+
+  .monaco-header {
+      background-color: var(--MonacoHeder-Bg);
+  }
+  
+  .monaco-selector {
+    background-color: var(--MonacoSelector-Bg);
+  }
+
+  .monaco-selector:hover {
+    background-color: var(--MonacoSelector-Bg-Hover);
+  }
+
+  .height-adjuster {
+    color: var(--Adjuster-Color);
+    background-color: var(--Adjuster-Bg);
+    border-radius: var(--Adjuster-Rounded);
+    transition: background-color 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+  }
+
+  .height-adjuster:hover {
+    background-color: var(--Adjuster-Bg-Hover);
+    border-radius: var(--Adjuster-Rounded-Hover);
+  }
+}
