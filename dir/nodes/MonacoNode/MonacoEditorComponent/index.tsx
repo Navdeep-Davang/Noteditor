@@ -8,7 +8,7 @@ import { useLexicalNodeSelection } from "@lexical/react/useLexicalNodeSelection"
 import { $getNodeByKey, COMMAND_PRIORITY_LOW, KEY_DELETE_COMMAND } from "lexical";
 import { $isMonacoNode, MonacoNode } from "..";
 import { useTheme } from "next-themes";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Copy } from "lucide-react";
 
 interface MonacoEditorProps {
   nodeKey : string
@@ -134,7 +134,7 @@ const MonacoEditorComponent: React.FC<MonacoEditorProps> = ({ nodeKey }) => {
       {/* Header */}
       <div className="monaco-header flex items-center justify-between p-1 border-b ">
         <Select onValueChange={(value) => handleLanguageChange(value)} value={language}>
-          <SelectTrigger className="monaco-selector flex items-center justify-between w-fit h-fit gap-2  text-[10px] px-1.5 py-1 border rounded-md shadow-sm  focus:ring-0">
+          <SelectTrigger className="monaco-button flex items-center justify-between w-fit h-fit gap-2  text-[10px] px-1.5 py-1 border rounded-md shadow-sm  focus:ring-0">
             <SelectValue placeholder="Select Language" />
             <ChevronDown className="h-3 w-3 opacity-50" />
           </SelectTrigger>
@@ -157,6 +157,11 @@ const MonacoEditorComponent: React.FC<MonacoEditorProps> = ({ nodeKey }) => {
             <SelectItem value="markdown">Markdown</SelectItem>
           </SelectContent>
         </Select>
+
+        <button className="monaco-button flex items-center justify-between w-fit h-fit gap-0 text-xs px-1.5 py-1 border rounded-md shadow-sm">
+          Copy <Copy className="w-3 h-3" />
+        </button>
+
       </div>
 
       {/* Editor */}

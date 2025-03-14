@@ -33,11 +33,11 @@
       background-color: var(--MonacoHeder-Bg);
   }
   
-  .monaco-selector {
+  .monaco-button {
     background-color: var(--MonacoSelector-Bg);
   }
 
-  .monaco-selector:hover {
+  .monaco-button:hover {
     background-color: var(--MonacoSelector-Bg-Hover);
   }
 
