@@ -8,7 +8,7 @@ import { useLexicalNodeSelection } from "@lexical/react/useLexicalNodeSelection"
 import { $getNodeByKey, COMMAND_PRIORITY_LOW, KEY_DELETE_COMMAND } from "lexical";
 import { $isMonacoNode, MonacoNode } from "..";
 import { useTheme } from "next-themes";
-import { ChevronDown, Copy } from "lucide-react";
+import { Check, ChevronDown, Copy } from "lucide-react";
 
 interface MonacoEditorProps {
   nodeKey : string
@@ -23,6 +23,7 @@ const MonacoEditorComponent: React.FC<MonacoEditorProps> = ({ nodeKey }) => {
 
 
   const [code, setCode] = useState('');
+  const [copied, setCopied] = useState(false);
   const [language, setLanguage] = useState('plaintext');
 
   
@@ -119,6 +120,16 @@ const MonacoEditorComponent: React.FC<MonacoEditorProps> = ({ nodeKey }) => {
     setCode(newCode);
   };
 
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);      
+    } catch (error) {
+      console.error("Failed to copy:", error);
+    }
+  };
+
   return (
     <div 
       className='monaco-block-wrapper my-4 w-full justify-center'
@@ -158,8 +169,21 @@ const MonacoEditorComponent: React.FC<MonacoEditorProps> = ({ nodeKey }) => {
           </SelectContent>
         </Select>
 
-        <button className="monaco-button flex items-center justify-between w-fit h-fit gap-0 text-xs px-1.5 py-1 border rounded-md shadow-sm">
-          Copy <Copy className="w-3 h-3" />
+        <button
+          onClick={copyToClipboard}
+          disabled={copied} // Disable when copied
+          className={`monaco-button flex items-center justify-between w-fit h-fit gap-1 text-xs px-1.5 py-1 border rounded-md shadow-sm 
+            ${copied ? "opacity-50 cursor-not-allowed" : ""}`}
+        >
+          {copied ? (
+            <>
+              Copied <Check className="w-3 h-3" />
+            </>
+          ) : (
+            <>
+              Copy <Copy className="w-3 h-3" /> 
+            </>
+          )}
         </button>
 
       </div>
