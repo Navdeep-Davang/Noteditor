@@ -145,9 +145,9 @@ const MonacoEditorComponent: React.FC<MonacoEditorProps> = ({ nodeKey }) => {
       {/* Header */}
       <div className="monaco-header flex items-center justify-between p-1 border-b ">
         <Select onValueChange={(value) => handleLanguageChange(value)} value={language}>
-          <SelectTrigger className="monaco-button flex items-center justify-between w-fit h-fit gap-2  text-[10px] px-1.5 py-1 border rounded-md shadow-sm  focus:ring-0">
+          <SelectTrigger className="monaco-button flex items-center justify-between w-fit h-fit gap-2 text-xs px-1.5 py-1 border rounded-md shadow-sm  focus:ring-0">
             <SelectValue placeholder="Select Language" />
-            <ChevronDown className="h-3 w-3 opacity-50" />
+            <ChevronDown className="h-3 w-3" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="javascript">JavaScript</SelectItem>
