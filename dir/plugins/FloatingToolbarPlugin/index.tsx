@@ -54,21 +54,39 @@ function useFloatingToolbar(
       const nativeSelection = getDOMSelection(editor._window);
       const rootElement = editor.getRootElement();
 
+      // console.log("Selection:", selection);
+      // console.log("Native Selection:", nativeSelection);
+      // console.log("Root Element:", rootElement);
+
       if (
-        nativeSelection !== null &&
-        (!$isRangeSelection(selection) ||
-          rootElement === null ||
-          !rootElement.contains(nativeSelection.anchorNode))
+        nativeSelection === null || 
+        !$isRangeSelection(selection) || 
+        rootElement === null || 
+        !rootElement.contains(nativeSelection.anchorNode) 
       ) {
+        // console.log("Invalid selection, setting isText to false");
         setIsText(false);
         return;
       }
 
-      if (!$isRangeSelection(selection)) {
+      if (selection.isCollapsed()) {
+        // console.log("Collapsed selection detected, hiding toolbar.");
+        setIsText(false);
         return;
       }
 
       const node = getSelectedNode(selection);
+      // console.log("Selected Node:", node);
+
+      const rawTextContent = selection.getTextContent().replace(/\n/g, '');
+      if (!selection.isCollapsed() && rawTextContent === '') {
+        // console.log("No visible text selected, hiding toolbar.");
+        setIsText(false);
+        return;
+      }
+
+      // TODO :: Uncomment the below to show the FloatingToolbar, currently not setted to true for developement purpose  
+      // setIsText(true);
 
       
       // Update text format
@@ -85,19 +103,9 @@ function useFloatingToolbar(
 
       // Update links
       const parent = node.getParent();
-      if ($isLinkNode(parent) || $isLinkNode(node)) {
-        setIsLink(true);
-      } else {
-        setIsLink(false);
-      }
+      setIsLink($isLinkNode(parent) || $isLinkNode(node));    
 
-    
-
-      const rawTextContent = selection.getTextContent().replace(/\n/g, '');
-      if (!selection.isCollapsed() && rawTextContent === '') {
-        setIsText(false);
-        return;
-      }
+      
     });
   }, [editor]);
 
@@ -151,7 +159,7 @@ function useFloatingToolbar(
 export default function FloatingToolbarPlugin({
   activeEditor,
   setActiveEditor,
-  anchorElem = document.body,
+  anchorElem = activeEditor.getRootElement() || document.body,
   setIsLinkEditMode,
 }: {
   activeEditor: LexicalEditor
@@ -160,5 +168,13 @@ export default function FloatingToolbarPlugin({
   setIsLinkEditMode: Dispatch<boolean>;
 }): React.JSX.Element | null {
   const [editor] = useLexicalComposerContext();
-  return useFloatingToolbar( activeEditor, setActiveEditor, editor, anchorElem, setIsLinkEditMode,);
+  const floatingToolbar = useFloatingToolbar(
+    activeEditor,
+    setActiveEditor,
+    editor,
+    anchorElem,
+    setIsLinkEditMode
+  );
+  // console.log("Floating toolbar component:", floatingToolbar);
+  return floatingToolbar;
 }

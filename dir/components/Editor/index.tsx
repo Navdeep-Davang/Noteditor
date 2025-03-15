@@ -63,6 +63,10 @@ export default function Editor(): React.JSX.Element {
     };
   }, [isSmallWidthViewport]);
 
+    
+  // console.log("floatingAnchorElem:", floatingAnchorElem);
+  // console.log("isSmallWidthViewport:", isSmallWidthViewport);
+  // console.log("Should render FloatingToolbarPlugin:", floatingAnchorElem && !isSmallWidthViewport);
 
   return (
     <div className="editor-container">
@@ -98,8 +102,7 @@ export default function Editor(): React.JSX.Element {
         editor={activeEditor}
         setIsLinkEditMode={setIsLinkEditMode}
       />
-  
-      
+
       {floatingAnchorElem && !isSmallWidthViewport && (
         <>         
           <FloatingLinkEditorPlugin
