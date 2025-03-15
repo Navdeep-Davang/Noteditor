@@ -87,7 +87,6 @@ const MonacoEditorComponent: React.FC<MonacoEditorProps> = ({ nodeKey }) => {
 
       const newHeight = monacoeditor.getContentHeight(); // This considers folded sections
       setContentHeight(newHeight);
-      console.log("Updated content height:", newHeight);
     };
 
 
@@ -100,7 +99,6 @@ const MonacoEditorComponent: React.FC<MonacoEditorProps> = ({ nodeKey }) => {
     // Listen for folding/unfolding changes & update height
     monacoeditor.onDidChangeModelDecorations(() => {
       updateContentHeight();
-      console.log("Model decorations changed:");
     });
 
   };

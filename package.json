@@ -19,11 +19,14 @@
     "@lexical/table": "0.23.1",
     "@lexical/utils": "0.23.1",
     "@monaco-editor/react": "4.7.0-rc.0",
+    "@radix-ui/react-dialog": "^1.1.6",
     "@radix-ui/react-popover": "^1.1.5",
+    "@radix-ui/react-scroll-area": "^1.2.3",
     "@radix-ui/react-select": "^2.1.5",
     "@radix-ui/react-slot": "^1.1.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "cmdk": "1.0.0",
     "lexical": "0.23.1",
     "lucide-react": "^0.474.0",
     "monaco-editor": "^0.52.2",
@@ -43,7 +46,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.1.6",
-    "postcss": "^8",
+    "postcss": "^8.5.3",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }

@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --Menu-Bg: #ffffff;
+    --Menu-Shadow: rgba(0, 0, 0, 0.2);
+    --Menu-Item-Hover: #f3f3f3;
+    --Menu-Item-Active: #e0e0e0;
+    --Menu-Text: #333;
+    --Menu-Border: #ddd;
+  }
+
+  .dark {
+    --Menu-Bg: #1f1f1f;
+    --Menu-Shadow: rgba(255, 255, 255, 0.1);
+    --Menu-Item-Hover: #2a2a2a;
+    --Menu-Item-Active: #3a3a3a;
+    --Menu-Text: #ddd;
+    --Menu-Border: #444;
+  }
+}
+
+@layer components {
+  .typeahead-popover {
+    @apply absolute z-50 mt-2 w-56 rounded-lg border bg-[var(--Menu-Bg)] p-2 text-[var(--Menu-Text)] shadow-lg;
+    border-color: var(--Menu-Border);
+    box-shadow: 0px 4px 6px var(--Menu-Shadow);
+  }
+
+  .typeahead-popover ul {
+    @apply list-none m-0 p-0;
+  }
+
+  .typeahead-popover .item {
+    @apply flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-sm;
+    transition: background 0.2s;
+  }
+
+  .typeahead-popover .item:hover {
+    background: var(--Menu-Item-Hover);
+  }
+
+  .typeahead-popover .item.selected {
+    background: var(--Menu-Item-Active);
+  }
+
+  .typeahead-popover .icon {
+    @apply text-lg opacity-80;
+  }
+}

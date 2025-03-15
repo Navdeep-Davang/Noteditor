@@ -35,7 +35,7 @@ import * as ReactDOM from 'react-dom';
 
 // import useModal from '../../hooks/useModal';
 
-import { $createCodeNode } from '@/dir/nodes/CodeNode';
+// import { $createCodeNode } from '@/dir/nodes/CodeNode';
 
 class ComponentPickerOption extends MenuOption {
   // What shows up in the editor
@@ -188,26 +188,26 @@ function getBaseOptions(editor: LexicalEditor) {
           }
         }),
     }),
-    new ComponentPickerOption('Code', {
-      icon: <i className="icon code" />,
-      keywords: ['javascript', 'python', 'js', 'codeblock'],
-      onSelect: () =>
-        editor.update(() => {
-          const selection = $getSelection();
+    // new ComponentPickerOption('Code', {
+    //   icon: <i className="icon code" />,
+    //   keywords: ['javascript', 'python', 'js', 'codeblock'],
+    //   onSelect: () =>
+    //     editor.update(() => {
+    //       const selection = $getSelection();
 
-          if ($isRangeSelection(selection)) {
-            if (selection.isCollapsed()) {
-              $setBlocksType(selection, () => $createCodeNode());
-            } else {
-              // Will this ever happen?
-              const textContent = selection.getTextContent();
-              const codeNode = $createCodeNode();
-              selection.insertNodes([codeNode]);
-              selection.insertRawText(textContent);
-            }
-          }
-        }),
-    }),
+    //       if ($isRangeSelection(selection)) {
+    //         if (selection.isCollapsed()) {
+    //           $setBlocksType(selection, () => $createCodeNode());
+    //         } else {
+    //           // Will this ever happen?
+    //           const textContent = selection.getTextContent();
+    //           const codeNode = $createCodeNode();
+    //           selection.insertNodes([codeNode]);
+    //           selection.insertRawText(textContent);
+    //         }
+    //       }
+    //     }),
+    // }),
     new ComponentPickerOption('Divider', {
       icon: <i className="icon horizontal-rule" />,
       keywords: ['horizontal rule', 'divider', 'hr'],
@@ -226,7 +226,7 @@ function getBaseOptions(editor: LexicalEditor) {
   ];
 }
 
-export default function ComponentPickerMenuPlugin(): React.JSX.Element {
+export default function SlashMenuPlugin(): React.JSX.Element {
   const [editor] = useLexicalComposerContext();
   // const [modal, showModal] = useModal();
   const [queryString, setQueryString] = useState<string | null>(null);

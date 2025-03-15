@@ -25,6 +25,9 @@ import FloatingToolbarPlugin from "@/dir/plugins/FloatingToolbarPlugin";
 import TreeViewPlugin from "@/dir/plugins/TreeViewPlugin";
 import MonacoPlugin from "@/dir/plugins/MonacoPlugin";
 import ToolbarPlugin from "@/dir/plugins/ToolbarPlugin";
+// import ComponentPickerMenuPlugin from "@/dir/plugins/ComponentPickerPlugin";
+import SlashMenuPlugin from "@/dir/plugins/SlashMenuPlugin";
+import SlashEventPlugin from "@/dir/plugins/SlashEventPlugin";
 
 
 export default function Editor(): React.JSX.Element {
@@ -70,6 +73,9 @@ export default function Editor(): React.JSX.Element {
       <HistoryPlugin />
       <ListPlugin />
       <LinkPlugin/>
+      {/* <ComponentPickerMenuPlugin/> */}
+      <SlashMenuPlugin/>
+      <SlashEventPlugin/>
       <CheckListPlugin />
       <MonacoPlugin/>
       <TablePlugin />
