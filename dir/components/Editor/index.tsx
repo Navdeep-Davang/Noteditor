@@ -26,7 +26,7 @@ import TreeViewPlugin from "@/dir/plugins/TreeViewPlugin";
 import MonacoPlugin from "@/dir/plugins/MonacoPlugin";
 import ToolbarPlugin from "@/dir/plugins/ToolbarPlugin";
 // import ComponentPickerMenuPlugin from "@/dir/plugins/ComponentPickerPlugin";
-import SlashMenuPlugin from "@/dir/plugins/SlashMenuPlugin";
+// import SlashMenuPlugin from "@/dir/plugins/SlashMenuPlugin";
 import SlashEventPlugin from "@/dir/plugins/SlashEventPlugin";
 
 
@@ -78,7 +78,7 @@ export default function Editor(): React.JSX.Element {
       <ListPlugin />
       <LinkPlugin/>
       {/* <ComponentPickerMenuPlugin/> */}
-      <SlashMenuPlugin/>
+      {/* <SlashMenuPlugin/> */}
       <SlashEventPlugin/>
       <CheckListPlugin />
       <MonacoPlugin/>
