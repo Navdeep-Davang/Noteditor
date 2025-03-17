@@ -2,6 +2,9 @@ import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext
 import { $getSelection, $isRangeSelection } from "lexical";
 import { useEffect } from "react";
 
+
+const MAX_COMMAND_LENGTH = 50;
+
 const SlashEventPlugin = () => {
   const [editor] = useLexicalComposerContext();
 
@@ -15,15 +18,21 @@ const SlashEventPlugin = () => {
         const textContent = anchorNode.getTextContent();
         const cursorOffset = selection.anchor.offset;
 
-        // Ensure we have enough characters to check " /| "
-        if (cursorOffset >= 2) {
-          const prevChar = textContent[cursorOffset - 2]; // Space before slash
-          const slashChar = textContent[cursorOffset - 1]; // Slash itself
-          const nextChar = textContent[cursorOffset]; // Space after slash
+        if (cursorOffset >= 1) {
+          const typedText = textContent.slice(0, cursorOffset); // Get text before cursor
+          const afterCursor = textContent.slice(cursorOffset); // Text after cursor
 
-          // Check if the format is " / "
-          if (prevChar === " " && slashChar === "/" && (!nextChar || nextChar === " ")) {
-            console.log("slash triggered");
+          // Match if `/` is at the start or preceded by a space
+          const match = typedText.match(/(?:^|\s)\/(\w*)$/);
+
+          if (match) {
+            const commandText = match[1];
+            
+            // Ensure it's within max length and no text follows cursor
+            // Trigger only if nothing comes after the cursor
+            if (commandText.length <= MAX_COMMAND_LENGTH && (!afterCursor || afterCursor.match(/^\s*$/))) {
+              console.log("Slash Command Detected:", match[0].trim()); // Trim to remove leading space
+            }
           }
         }
       });
