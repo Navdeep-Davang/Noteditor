@@ -8,10 +8,11 @@ interface DynamicPopoverProps {
   open: boolean;
   position: { top: number; left: number } | null;
   selectedIndex: number;
-  filteredItems : MenuItemProps[]
+  filteredItems : MenuItemProps[];
+  onSelect: (item: MenuItemProps) => void;
 }
 
-const DynamicPopover = ({ open, position, selectedIndex, filteredItems }: DynamicPopoverProps) => {
+const DynamicPopover = ({ open, position, selectedIndex, filteredItems, onSelect }: DynamicPopoverProps) => {
   
   // If no matching items, don't render the popover
   if (!open || !position || filteredItems.length === 0) return null;  
@@ -27,6 +28,7 @@ const DynamicPopover = ({ open, position, selectedIndex, filteredItems }: Dynami
           {filteredItems.map((item, index) => (
             <div
               key={item.title}
+              onClick={() => onSelect(item)}
               className={`flex cursor-pointer items-center gap-3 rounded-md px-3 py-2 ${
                 index === selectedIndex ? "bg-gray-200" : "hover:bg-gray-100"
               }`}

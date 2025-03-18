@@ -1,9 +1,12 @@
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { $getSelection, $isRangeSelection, BLUR_COMMAND } from "lexical";
-import { useEffect, useState } from "react";
+import { $getSelection, $isRangeSelection, BLUR_COMMAND, LexicalEditor } from "lexical";
+import { useCallback, useEffect, useState } from "react";
 import DynamicPopover from "./DynamicPopover";
 import { AlignLeft, Code, File, FileAudio, FileVideo, ImageIcon, ListChecks, Smile, Table } from "lucide-react";
 import { MenuItemProps } from "./types";
+import { INSERT_CHECK_LIST_COMMAND } from "@lexical/list";
+import { INSERT_MONACO_COMMAND } from "../MonacoPlugin";
+import { $setBlocksType } from "@lexical/selection";
 
 
 const MAX_COMMAND_LENGTH = 50;
@@ -20,6 +23,55 @@ const MENU_ITEMS: MenuItemProps[] = [
   { icon: <File className="h-5 w-5 text-gray-600" />, title: "File", description: "Embedded file" },
   { icon: <Smile className="h-5 w-5 text-gray-600" />, title: "Emoji", description: "Search for and insert an emoji" },
 ];
+
+
+const executeCommand = (editor: LexicalEditor, commandTitle: string) => {
+  switch (commandTitle) {
+    case "Check List":
+      // editor.dispatchCommand(INSERT_CHECK_LIST_COMMAND, undefined);
+      console.log("Check List is inserted")
+      break;
+    case "Paragraph":
+      // editor.update(() => {
+      //   const selection = $getSelection();
+      //   $setBlocksType(selection, () => $createParagraphNode());
+      // });
+      console.log("Paragraph is inserted")
+      break;
+    case "Code Block":
+      // editor.dispatchCommand(INSERT_MONACO_COMMAND, {language: 'javascript', code:''});
+      console.log("Code is inserted")
+      break;
+    case "Table":
+      // editor.dispatchCommand(INSERT_TABLE_COMMAND, undefined);
+      console.log("Table is inserted")
+      break;
+    case "Image":
+      // editor.dispatchCommand(INSERT_IMAGE_COMMAND, { src: "https://example.com/image.png" });
+      console.log("Image is inserted")
+      break;
+    case "Video":
+      // editor.dispatchCommand(INSERT_VIDEO_COMMAND, { src: "https://example.com/video.mp4" });
+      console.log("Video is inserted")
+      break;
+    case "Audio":
+      // editor.dispatchCommand(INSERT_AUDIO_COMMAND, { src: "https://example.com/audio.mp3" });
+      console.log("Audio is inserted")
+      break;
+    case "File":
+      // editor.dispatchCommand(INSERT_FILE_COMMAND, { src: "https://example.com/file.pdf" });
+      console.log("File is inserted")
+      break;
+    case "Emoji":
+      // editor.dispatchCommand(INSERT_EMOJI_COMMAND, "😊");
+      console.log("Emoji is inserted")
+      break;
+    default:
+      console.warn("No command mapped for", commandTitle);
+  }
+};
+
+
 
 const SlashEventPlugin = () => {
   const [editor] = useLexicalComposerContext();
@@ -85,10 +137,18 @@ const SlashEventPlugin = () => {
     ? MENU_ITEMS
     : MENU_ITEMS.filter((item) => item.title.toLowerCase().includes(query.toLowerCase()));
 
+  const handleSelection = useCallback((item: MenuItemProps) => {
+    if (!editor) return; // Ensure editor is available
+    console.log("Event from", item.title);
+    executeCommand(editor, item.title); // Execute the mapped command
+    setIsSlashActive(false); // Hide popover after selection
+  }, [editor]);
   
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (!isSlashActive) return; // Only handle keys when popover is open
+
+      console.log("Key Pressed:", event.key);
 
       if (event.key === "ArrowDown") {
         event.preventDefault();
@@ -98,14 +158,15 @@ const SlashEventPlugin = () => {
         setSelectedIndex((prevIndex) => (prevIndex - 1 + filteredItems.length) % filteredItems.length);
       } else if (event.key === "Enter") {
         event.preventDefault();
-        console.log("Selected:", filteredItems[selectedIndex].title);
+        console.log("Enter Pressed - Executing Command");
+        handleSelection(filteredItems[selectedIndex]);
       }
     };
 
-    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("keydown", handleKeyDown, true);
 
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [isSlashActive, selectedIndex, filteredItems]);
+    return () => document.removeEventListener("keydown", handleKeyDown, true);
+  }, [isSlashActive, selectedIndex, filteredItems, handleSelection]);
 
 
   return (
@@ -114,6 +175,7 @@ const SlashEventPlugin = () => {
       position={position}
       selectedIndex = {selectedIndex}
       filteredItems = {filteredItems}
+      onSelect={handleSelection}
     />
   );
 };
