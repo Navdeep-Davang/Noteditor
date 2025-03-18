@@ -1,5 +1,5 @@
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { $getSelection, $isRangeSelection } from "lexical";
+import { $getSelection, $isRangeSelection, BLUR_COMMAND } from "lexical";
 import { useEffect, useState } from "react";
 import DynamicPopover from "./DynamicPopover";
 import { AlignLeft, Code, File, FileAudio, FileVideo, ImageIcon, ListChecks, Smile, Table } from "lucide-react";
@@ -29,7 +29,7 @@ const SlashEventPlugin = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   useEffect(() => {
-    const removeListener = editor.registerUpdateListener(({ editorState }) => {
+    const removeUpdateListener = editor.registerUpdateListener(({ editorState }) => {
       editorState.read(() => {
         const selection = $getSelection();
         if (!$isRangeSelection(selection) || !selection.isCollapsed()) return;
@@ -63,7 +63,19 @@ const SlashEventPlugin = () => {
       });
     });
   
-    return () => removeListener();
+    const removeBlurListener = editor.registerCommand(
+      BLUR_COMMAND,
+      () => {
+        setIsSlashActive(false);
+        return false;
+      },
+      1
+    );
+
+    return () =>{
+      removeUpdateListener();
+      removeBlurListener();
+    };
   }, [editor]);
 
 
@@ -94,7 +106,6 @@ const SlashEventPlugin = () => {
 
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [isSlashActive, selectedIndex, filteredItems]);
-
 
 
   return (
