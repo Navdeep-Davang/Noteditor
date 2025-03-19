@@ -184,6 +184,10 @@ const SlashEventPlugin = () => {
         event.preventDefault();
         console.log("Enter Pressed - Executing Command");
         handleSelection(filteredItems[selectedIndex]);
+      } else if (event.key === "Escape") {
+        event.preventDefault();
+        console.log("Escape Pressed - Closing Popover");
+        setIsSlashActive(false); // Close popover on Escape
       }
     };
 
