@@ -1,12 +1,9 @@
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { $getSelection, $isRangeSelection, BLUR_COMMAND, LexicalEditor } from "lexical";
-import { useCallback, useEffect, useState } from "react";
+import { $getSelection, $isRangeSelection, LexicalEditor } from "lexical";
+import { useCallback, useEffect, useRef, useState } from "react";
 import DynamicPopover from "./DynamicPopover";
 import { AlignLeft, Code, File, FileAudio, FileVideo, ImageIcon, ListChecks, Smile, Table } from "lucide-react";
 import { MenuItemProps } from "./types";
-import { INSERT_CHECK_LIST_COMMAND } from "@lexical/list";
-import { INSERT_MONACO_COMMAND } from "../MonacoPlugin";
-import { $setBlocksType } from "@lexical/selection";
 
 
 const MAX_COMMAND_LENGTH = 50;
@@ -79,7 +76,9 @@ const SlashEventPlugin = () => {
   const [query, setQuery] = useState<string>("");
   const [position, setPosition] = useState<{ top: number; left: number } | null>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const popoverRef = useRef<HTMLDivElement | null>(null);
 
+  /* ADDING THE LISTENER WHICH WILL LISTEN FOR THE SLASH COMMAND ACTIVATION */
   useEffect(() => {
     const removeUpdateListener = editor.registerUpdateListener(({ editorState }) => {
       editorState.read(() => {
@@ -96,9 +95,10 @@ const SlashEventPlugin = () => {
   
         // Check if the word starts with `/`
         if (currentWord.startsWith("/") && currentWord.length <= MAX_COMMAND_LENGTH ) {
+          setSelectedIndex(-1);
           setIsSlashActive(true);
           setQuery(currentWord.slice(1)); // Store query without `/`
-
+          
           const domSelection = window.getSelection();
           if (domSelection && domSelection.rangeCount > 0) {
             const domRange = domSelection.getRangeAt(0);
@@ -113,37 +113,61 @@ const SlashEventPlugin = () => {
           setIsSlashActive(false);
         }
       });
-    });
-  
-    const removeBlurListener = editor.registerCommand(
-      BLUR_COMMAND,
-      () => {
-        setIsSlashActive(false);
-        return false;
-      },
-      1
-    );
+    });  
 
     return () =>{
       removeUpdateListener();
-      removeBlurListener();
     };
-  }, [editor]);
+  }, [editor, isSlashActive]);
 
 
-  // Filter menu items based on query
+  /* HANDLE CLOSING OF THE POPOVER WHEN CLICK OUTSIDE */
+  useEffect(() => {
+    if (!isSlashActive) return; // Only add listener when popover is active
+  
+    const handleClickOutside = (event: MouseEvent) => {
+      if (popoverRef.current && popoverRef.current.contains(event.target as Node)) {
+        return; // Click is inside popover, do nothing
+      }
+  
+      console.log("Closing popover due to outside click");
+      setIsSlashActive(false);
+    };
+  
+    document.addEventListener("mousedown", handleClickOutside);
+  
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isSlashActive]);
+  
+
+  /* FILTER THE MENU ITEM BASED ON THE QUERY */
   const filteredItems =
   query.trim() === ""
     ? MENU_ITEMS
     : MENU_ITEMS.filter((item) => item.title.toLowerCase().includes(query.toLowerCase()));
 
+  
+  /* HANDLER WHICH EXECUTE THE COMMANDS AFTER POPOVER ITEM SELECTION */
   const handleSelection = useCallback((item: MenuItemProps) => {
     if (!editor) return; // Ensure editor is available
-    console.log("Event from", item.title);
     executeCommand(editor, item.title); // Execute the mapped command
     setIsSlashActive(false); // Hide popover after selection
+
+    // todo :: Below code will be removed when the executeCommand will be executing the proper execution command
+    editor.update(() => {
+      const selection = $getSelection();
+      if ($isRangeSelection(selection)) {
+        selection.insertParagraph(); // Move cursor to new line
+      }
+    });
+  
+    editor.focus();
   }, [editor]);
   
+
+  /* KEYBOARD EVENT HANDLER */
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (!isSlashActive) return; // Only handle keys when popover is open
@@ -171,6 +195,7 @@ const SlashEventPlugin = () => {
 
   return (
     <DynamicPopover
+      ref= {popoverRef}
       open={isSlashActive}
       position={position}
       selectedIndex = {selectedIndex}
