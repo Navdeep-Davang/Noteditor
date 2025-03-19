@@ -2,5 +2,7 @@
 @import "./FloatingToolbarPlugin/index.css";
 @import "./CodeBlockPlugin/index.css";
 @import "./ToolbarPlugin/index.css";
+@import "./SlashEventPlugin/index.css";
 @import "./SlashMenuPlugin/index.css"
+
 

@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --DynamicPopover-Bg: #ffffff;
+    --DynamicPopover-Border: rgba(0, 0, 0, 0.2);
+    --DynamicPopover-Shadow: rgba(0, 0, 0, 0.3);
+    --DynamicPopover-Item-Hover: #eee;
+    --DynamicPopover-Item-Active: #ddd;
+    --DynamicPopover-Icon-Color: #fff;
+    --DynamicPopover-Icon-Bg:  rgba(0, 0, 0);
+    --DynamicPopover-Icon-Opacity: 0.7;
+    --DynamicPopover-Icon-Disabled: 0.2;
+    --DynamicPopover-Text: #444;
+    --DynamicPopover-Shortcut-Bg: #e5e5e5;
+    --DynamicPopover-Shortcut-Text: #666;
+  }
+
+  .dark {
+    --DynamicPopover-Bg: #191919;
+    --DynamicPopover-Border: rgba(255, 255, 255, 0.2);
+    --DynamicPopover-Shadow: rgba(255, 255, 255, 0.1);
+    --DynamicPopover-Item-Hover: rgba(255, 255, 255, 0.2);
+    --DynamicPopover-Item-Active: rgba(255, 255, 255, 0.3);
+    --DynamicPopover-Icon-Color: #333;
+    --DynamicPopover-Icon-Bg: #f5f5f5;
+    --DynamicPopover-Icon-Opacity: 1; /* Increased opacity for better visibility */
+    --DynamicPopover-Icon-Disabled: 0.5;
+    --DynamicPopover-Text: #f5f5f5; /* Increased contrast */
+    --DynamicPopover-Shortcut-Bg: rgba(255, 255, 255, 0.2);
+    --DynamicPopover-Shortcut-Text: #ddd; /* Lighter shortcut text */
+  }
+}
+
+@layer components {
+  .dynamic-popover {
+    background-color: var(--DynamicPopover-Bg);
+    box-shadow: 0px 5px 10px var(--DynamicPopover-Shadow);
+    border: 1px solid var(--DynamicPopover-Border);
+  }
+
+  .dynamic-popover-item {
+    color: var(--DynamicPopover-Text);
+    transition: background-color 0.2s, color 0.2s;
+  }
+
+  .dynamic-popover-item:hover {
+    background-color: var(--DynamicPopover-Item-Hover);
+  }
+
+  .dynamic-popover-item.active {
+    background-color: var(--DynamicPopover-Item-Active);
+  }
+
+  .dynamic-popover-icon {
+    background-color: var(--DynamicPopover-Icon-Bg);
+    opacity: var(--DynamicPopover-Icon-Opacity);
+  }
+
+    .dynamic-popover-icon svg,
+    .dynamic-popover-icon i { /* This targets both SVG and font icons */
+    color: var(--DynamicPopover-Icon-Color);
+    }
+
+  .dynamic-popover-shortcut {
+    background-color: var(--DynamicPopover-Shortcut-Bg);
+    color: var(--DynamicPopover-Shortcut-Text);
+  }
+}
