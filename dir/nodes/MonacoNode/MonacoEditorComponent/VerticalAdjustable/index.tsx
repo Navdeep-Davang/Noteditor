@@ -4,9 +4,10 @@ import { useState, ReactNode, useEffect, useRef } from "react";
 interface VerticalAdjustableProps {
   children: ReactNode;
   contentHeight?: number;
+  setSelected: (selected: boolean) => void;
 }
 
-export const VerticalAdjustable = ({ children, contentHeight }: VerticalAdjustableProps) => {
+export const VerticalAdjustable = ({ children, contentHeight, setSelected }: VerticalAdjustableProps) => {
   const DEFAULT_HEIGHT = 200;
   const DEFAULT_LOWER_LIMIT = 200;
   const DEFAULT_UPPER_LIMIT = 300;
@@ -110,6 +111,7 @@ export const VerticalAdjustable = ({ children, contentHeight }: VerticalAdjustab
 
  
   const handleMouseDown = (event: React.MouseEvent) => {
+    setSelected(true)
     event.preventDefault();
     event.stopPropagation();
     setIsResizing(true);
@@ -117,7 +119,7 @@ export const VerticalAdjustable = ({ children, contentHeight }: VerticalAdjustab
 
   return (
     <div
-      className="vertical-adjustable relative w-full rounded-bl-lg rounded-br-lg border shadow-md overflow-hidden"
+      className="vertical-adjustable relative w-full rounded-bl-lg pr-1 rounded-br-lg overflow-hidden"
       style={{ height }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

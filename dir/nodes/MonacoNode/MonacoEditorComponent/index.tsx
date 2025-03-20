@@ -19,9 +19,9 @@ const MonacoEditorComponent: React.FC<MonacoEditorProps> = ({ nodeKey }) => {
   const monacoTheme = theme === "dark" ? "vs-dark" : "light";
 
   const [editor] = useLexicalComposerContext();
-  const [isSelected, setSelected, clearSelection] = useLexicalNodeSelection(nodeKey);
+  const [isSelected, setSelected] = useLexicalNodeSelection(nodeKey);
 
-
+  const [isFocused, setIsFocused] = useState(false);
   const [code, setCode] = useState('');
   const [copied, setCopied] = useState(false);
   const [language, setLanguage] = useState('plaintext');
@@ -82,14 +82,21 @@ const MonacoEditorComponent: React.FC<MonacoEditorProps> = ({ nodeKey }) => {
       model.updateOptions({ tabSize: 2, insertSpaces: true });
     }
 
+     // Listen for editor focus and blur
+    monacoeditor.onDidFocusEditorText(() => {
+      setIsFocused(true);
+    });
+
+    monacoeditor.onDidBlurEditorText(() => {
+      setIsFocused(false);
+    });
+
     const updateContentHeight = () => {
       if (!monacoeditor) return; // Ensure editor exists
 
       const newHeight = monacoeditor.getContentHeight(); // This considers folded sections
       setContentHeight(newHeight);
     };
-
-
 
     // Listen for content changes & update height
     monacoeditor.onDidChangeModelContent(() => {
@@ -128,21 +135,45 @@ const MonacoEditorComponent: React.FC<MonacoEditorProps> = ({ nodeKey }) => {
     }
   };
 
+
+  // todo :: Delete the below useEffect, because it is used for only debugging
+  useEffect(() => {
+    console.log("isSelected:", isSelected, "isFocused:", isFocused);
+  }, [isSelected, isFocused]);
+
+  const handleSelection = (event: React.MouseEvent) => {
+    event.stopPropagation(); // Prevents event bubbling to unwanted elements
+  
+    if (!isSelected) {
+      // Select if not already selected
+      setSelected(true);
+      return;
+    }
+  
+    
+  };
+
   return (
-    <div 
-      className='monaco-block-wrapper my-4 w-full justify-center'
-      onClick={(event) => {
-        if (!event.shiftKey) {
-          clearSelection();
-        }
-        setSelected(!isSelected);
-      }}
+    <div
+      className={`monaco-block-wrapper my-4 w-full justify-center border rounded-lg transition-all
+        ${isSelected ? (isFocused ? "border-blue-200 dark:border-blue-900" : "border-blue-500") : "border-transparent"}`}
+      onClick={handleSelection}
     >
+
 
     <div className="monaco-block overflow-hidden flex flex-col w-full h-full border rounded-lg shadow-md">
       {/* Header */}
-      <div className="monaco-header flex items-center justify-between p-1 border-b ">
-        <Select onValueChange={(value) => handleLanguageChange(value)} value={language}>
+      <div 
+        className={`monaco-header flex items-center justify-between p-1 border-b 
+          ${isSelected && isFocused ? "bg-blue-50 dark:bg-blue-950" : ""}`}
+      >
+        <Select 
+          onValueChange={(value) => handleLanguageChange(value)} 
+          value={language}
+          onOpenChange={(open) => {
+            if (open) setSelected(true); // Set selected when dropdown opens
+          }}
+        >
           <SelectTrigger className="monaco-button flex items-center justify-between w-fit h-fit gap-2 text-xs px-1.5 py-1 border rounded-md shadow-sm  focus:ring-0">
             <SelectValue placeholder="Select Language" />
             <ChevronDown className="h-3 w-3" />
@@ -187,7 +218,7 @@ const MonacoEditorComponent: React.FC<MonacoEditorProps> = ({ nodeKey }) => {
       </div>
 
       {/* Editor */}
-      <VerticalAdjustable contentHeight= {contentHeight}>
+      <VerticalAdjustable contentHeight= {contentHeight} setSelected={setSelected}>
         <Editor
           height="100%"
           width="100%"
