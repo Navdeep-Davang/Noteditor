@@ -20,6 +20,8 @@ const MonacoEditorComponent: React.FC<MonacoEditorProps> = ({ nodeKey }) => {
 
   const [editor] = useLexicalComposerContext();
   const [isSelected, setSelected] = useLexicalNodeSelection(nodeKey);
+  
+  console.log('key from component:', nodeKey)
 
   const [isFocused, setIsFocused] = useState(false);
   const [code, setCode] = useState('');

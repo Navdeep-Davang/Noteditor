@@ -1,9 +1,8 @@
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { $wrapNodeInElement } from '@lexical/utils';
 import {
-  $createParagraphNode,
-  $insertNodes,
-  $isRootOrShadowRoot,
+  $createNodeSelection,
+  $getRoot,
+  $setSelection,
   COMMAND_PRIORITY_EDITOR,
   createCommand,
   LexicalCommand,
@@ -26,13 +25,21 @@ export default function MonacoPlugin(): JSX.Element | null {
       INSERT_MONACO_COMMAND,
       (payload) => {
         const { language, code } = payload;
-        const monacoNode = $createMonacoNode(language, code);
-        $insertNodes([monacoNode]);
+        editor.update(() => {
+          const monacoNode = $createMonacoNode(language, code);
+          
+          const nodeKey = monacoNode.getKey();
+          // Ensure it's inserted at the root level
+          const root = $getRoot();
+          root.append(monacoNode);
 
-        if ($isRootOrShadowRoot(monacoNode.getParentOrThrow())) {
-          $wrapNodeInElement(monacoNode, $createParagraphNode).selectEnd();
-        }
-
+          console.log('key from plugin:', nodeKey)
+          
+          // Always create a fresh NodeSelection and set it
+          const selection = $createNodeSelection();
+          selection.add(nodeKey);
+          $setSelection(selection);
+        });
         return true;
       },
       COMMAND_PRIORITY_EDITOR
