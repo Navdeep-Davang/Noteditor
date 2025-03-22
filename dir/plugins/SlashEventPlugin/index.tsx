@@ -74,7 +74,7 @@ const SlashEventPlugin = () => {
   const [editor] = useLexicalComposerContext();
   const [isSlashActive, setIsSlashActive] = useState(false);
   const [query, setQuery] = useState<string>("");
-  const [position, setPosition] = useState<{ top: number; left: number } | null>(null);
+  const [position, setPosition] = useState<DOMRect | null>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const popoverRef = useRef<HTMLDivElement | null>(null);
 
@@ -104,10 +104,8 @@ const SlashEventPlugin = () => {
             const domRange = domSelection.getRangeAt(0);
             const rect = domRange.getBoundingClientRect();
 
-            setPosition({
-              top: rect.bottom + window.scrollY + 2,
-              left: rect.left,
-            });
+            setPosition(rect);
+
           }
         } else {
           setIsSlashActive(false);
@@ -172,7 +170,7 @@ const SlashEventPlugin = () => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (!isSlashActive) return; // Only handle keys when popover is open
 
-      console.log("Key Pressed:", event.key);
+      // console.log("Key Pressed:", event.key);
 
       if (event.key === "ArrowDown") {
         event.preventDefault();
