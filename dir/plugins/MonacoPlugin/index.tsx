@@ -27,18 +27,23 @@ export default function MonacoPlugin(): JSX.Element | null {
         const { language, code } = payload;
         editor.update(() => {
           const monacoNode = $createMonacoNode(language, code);
-          
+          const editorRoot = editor.getRootElement();
+
           const nodeKey = monacoNode.getKey();
           // Ensure it's inserted at the root level
           const root = $getRoot();
           root.append(monacoNode);
-
-          console.log('key from plugin:', nodeKey)
           
           // Always create a fresh NodeSelection and set it
           const selection = $createNodeSelection();
           selection.add(nodeKey);
           $setSelection(selection);
+
+          setTimeout(() => {
+            editorRoot?.focus();
+            console.log('Editor refocused');
+          }, 0);
+
         });
         return true;
       },
